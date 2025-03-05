@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Universitaria</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#students">Estudiantes</a></li>
+            <li><a href="#courses">Cursos</a></li>
+            <li><a href="#professors">Profesores</a></li>
+            <li><a href="#departments">Departamentos</a></li>
+            <li><a href="#assignments">Tareas</a></li>
+            <li><a href="#library">Biblioteca</a></li>
+        </ul>
+    </nav>
+
+    <section id="students" class="section active">
+        <h2>Estudiantes</h2>
+        <input type="text" class="filter-input" placeholder="Buscar estudiante...">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Fecha de inscripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <form id="add-student-form">
+            <input type="text" id="student-name" placeholder="Nombre" required>
+            <input type="email" id="student-email" placeholder="Email" required>
+            <input type="date" id="student-date" required>
+            <button type="submit">Agregar Estudiante</button>
+        </form>
+    </section>
+
+    <!-- Secciones similares para cursos, profesores, departamentos, etc. -->
+    
+    <script src="script.js"></script>
+</body>
+</html>
