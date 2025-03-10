@@ -3,70 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión Universitaria</title>
+    <title>Sabor & Arte - Restaurante</title>
     <link rel="stylesheet" href="./style/style.css">
+
 </head>
 <body>
-
-    <nav>
-        <ul>
-            <li><a href="#" data-section="students">Estudiantes</a></li>
-            <li><a href="#" data-section="courses">Cursos</a></li>
-            <li><a href="#" data-section="professors">Profesores</a></li>
-            <li><a href="#" data-section="departments">Departamentos</a></li>
-            <li><a href="#" data-section="assignments">Tareas</a></li>
-            <li><a href="#" data-section="library">Biblioteca</a></li>
-        </ul>
-    </nav>
-
-    <!-- SECCIÓN ESTUDIANTES -->
-    <section id="students" class="section active">
-        <h2>Estudiantes</h2>
-        <input type="text" class="filter-input" placeholder="Buscar estudiante...">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Fecha de inscripción</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="student-list"></tbody>
-        </table>
-        <form id="add-student-form">
-            <input type="text" id="student-name" placeholder="Nombre" required>
-            <input type="email" id="student-email" placeholder="Email" required>
-            <input type="date" id="student-date" required>
-            <button type="submit">Agregar Estudiante</button>
+    <header>
+        <h1>Sabor & Arte</h1>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#reservas">Reservas</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="inicio">
+        <h2>Bienvenido a Sabor & Arte</h2>
+        <p>Un lugar donde la gastronomía y la creatividad se encuentran.</p>
+    </section>
+    
+    <section id="menu">
+        <h2>Nuestro Menú</h2>
+        <div class="plato">
+            <img src="plato1.jpg" alt="Plato 1">
+            <h3>Pasta Alfredo</h3>
+            <p>$12.99</p>
+        </div>
+        <div class="plato">
+            <img src="plato2.jpg" alt="Plato 2">
+            <h3>Hamburguesa Gourmet</h3>
+            <p>$10.99</p>
+        </div>
+    </section>
+    
+    <section id="reservas">
+        <h2>Reservaciones</h2>
+        <form>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" required>
+            
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" required>
+            
+            <label for="personas">Número de personas:</label>
+            <input type="number" id="personas" required>
+            
+            <button type="submit">Reservar</button>
         </form>
     </section>
-
-    <!-- SECCIÓN CURSOS -->
-    <section id="courses" class="section">
-        <h2>Cursos</h2>
-        <input type="text" class="filter-input" placeholder="Buscar curso...">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Créditos</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="course-list"></tbody>
-        </table>
-        <form id="add-course-form">
-            <input type="text" id="course-title" placeholder="Título del curso" required>
-            <input type="number" id="course-credits" placeholder="Créditos" required>
-            <button type="submit">Agregar Curso</button>
-        </form>
+    
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <p>📍 Dirección: Calle 123, Ciudad</p>
+        <p>📞 Teléfono: 123-456-7890</p>
     </section>
-
-    <script src="./js/script.js"></script>
-
-</body>
+    
+    <footer>
+        <p>&copy; 2025 Sabor & Arte - Todos los derechos reservados</p>
+    </footer>
 </body>
 </html>
