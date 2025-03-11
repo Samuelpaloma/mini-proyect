@@ -1,108 +1,109 @@
 package com.samuel.crud_basic.model;
 
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 
-@Entity(name="user")
-
-public class user {
+@Entity(name = "User")
+public class User {
 
     @Id
-    @Column(name="id_user")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
+    private int idUser;
 
-    @Column(name="name", length=100, nullable=false)
-    private String name;
+    @Column(name = "nombre", length = 100, nullable = false)
+    private String nombre;
 
-    @Column(name = "email", length = 150, nullable = false)
-   private String email;
+    @Column(name = "email", length = 150, nullable = false, unique = true)
+    private String email;
 
     @Column(name = "contrasena", length = 150, nullable = false)
     private String contrasena;
 
-    @Column(name = "telefono", length = 150, nullable = false)
-    private int telefono;
+    @Column(name = "telefono", length = 15, nullable = false)
+    private String telefono;  // Cambiado a String
 
     @Column(name = "direccion", nullable = false)
     private String direccion;
 
-    @OneToMany
-    @JoinColumn(name = "user")
-    private reservation reservation;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations;
 
-    //Constructor
+    public User() {
+    }
 
-    public user(int id_user, String name, String email, String contrasena, int telefono,
-         String direccion) {
-      this.id_user = id_user;
-      this.name = name;
-      this.email = email;
-      this.contrasena = contrasena;
-      this.telefono = telefono;
-      this.direccion = direccion;
-   }
+    public User(final int idUser,final String nombre, final String email, final String contrasena,  final String telefono, final String direccion) {
+                this.idUser = idUser;
+                this.nombre = nombre;
+                this.email = email;
+                this.contrasena = contrasena;
+                this.telefono = telefono;
+                this.direccion = direccion;
+    }
 
-   // get del ID
-   public int getId_user() {
-      return id_user;
-   }
+    // Getters y Setters
+    public int getIdUser() {
+        return idUser;
+    }
 
-   // set del ID
-   public void setId_user(int id_user) {
-         this.id_user = id_user;
-   }
+    public void setIdUser(final int idUser) {
+        this.idUser = idUser;
+    }
 
-   // get del firstName
-   public String get_nombre() {
-      return name;
-   }
+    public String getNombre() {
+        return nombre;
+    }
 
-   // set del firstName
-   public void set_breedName(String name) {
-      this.name = name;
-   }
-
-   // get del phone
-   public String get_contrasena() {
-      return contrasena;
-   }
-
-   // set del phone
-   public void set_contrasena(String contrasena) {
-      this.contrasena = contrasena;
-   }
-
-   public int get_telefono() {
-      return telefono;
-   }
-
-   // set del phone
-   public void set_telefono(int telefono) {
-      this.telefono = telefono;
-   }
-
-   public String get_direccion() {
-      return direccion;
-   }
-
-   // set del phone
-   public void set_direccion(String direccion) {
-      this.direccion = direccion;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
     
+
+    public void setNombre(final String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(final String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(final String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(final String direccion) {
+        this.direccion = direccion;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(final List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

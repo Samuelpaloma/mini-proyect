@@ -1,6 +1,5 @@
 package com.samuel.crud_basic.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,43 +8,48 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity(name="reservation")
-
-public class reservation {
+@Entity(name = "reservation")
+public class Reservation {
 
     @Id
-    @Column(name="id_reservation")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_reservation;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reservation")
+    private int idReservation;
 
-    @Column(name="fecha", length=100, nullable=false)
+    @Column(name = "fecha", length = 100, nullable = false)
     private String fecha;
 
     @Column(name = "hora", length = 150, nullable = false)
     private String hora;
 
-     @ManyToOne
-    @JoinColumn(name = "id_user")
-    private user user;
-    
     @ManyToOne
-    @JoinColumn(name = "id_table")
-    private table table;
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
 
-    //Constructor
+    @ManyToOne
+    @JoinColumn(name = "id_mesa", nullable = false)  // Se cambió "table" por "mesa"
+    private Mesa mesa;
 
-    public reservation(int id_reservation, String fecha, String hora) {
-      this.id_reservation = id_reservation;
-      this.fecha = fecha;
-      this.hora = fecha;
-   }
-
-    public int getId_reservation() {
-        return id_reservation;
+    // Constructor vacío (requerido por JPA)
+    public Reservation() {
     }
 
-    public void setId_reservation(int id_reservation) {
-        this.id_reservation = id_reservation;
+    // Constructor con parámetros
+    public Reservation(int idReservation, String fecha, String hora, User user, Mesa mesa) {
+        this.idReservation = idReservation;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.user = user;
+        this.mesa = mesa;
+    }
+
+    // Getters y Setters
+    public int getIdReservation() {
+        return idReservation;
+    }
+
+    public void setIdReservation(int idReservation) {
+        this.idReservation = idReservation;
     }
 
     public String getFecha() {
@@ -64,6 +68,19 @@ public class reservation {
         this.hora = hora;
     }
 
-   
-    
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
 }

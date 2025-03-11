@@ -1,6 +1,6 @@
 package com.samuel.crud_basic.DTO;
 
-public class userDTO {
+public class UserDTO {
 
     private String nombre;
 
@@ -8,11 +8,13 @@ public class userDTO {
 
     private String contrasena;
 
-    private int telefono;
+    private String telefono;
 
     private String direccion;
 
-    public userDTO(String nombre, String email, String contrasena, int telefono, String direccion) {
+    public UserDTO() {} 
+
+    public UserDTO(String nombre, String email, String contrasena, String telefono, String direccion) {
         this.nombre = nombre;
         this.email = email;
         this.contrasena = contrasena;
@@ -44,11 +46,11 @@ public class userDTO {
         this.contrasena = contrasena;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 

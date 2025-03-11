@@ -1,5 +1,6 @@
 package com.samuel.crud_basic.model;
 
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,75 +11,65 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity(name="factura")
-
-public class factura {
+public class Factura {
 
     @Id
-    @Column(name="id_factura")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id_factura;
+    @Column(name="id_factura")
+    private int idFactura;
 
-    @Column(name="fecha", length=100, nullable=false)
-    private String fecha;
+    @Column(name="fecha", nullable=false)
+    private LocalDate fecha; // Se cambió a LocalDate
 
-    @Column(name = "total", length = 150, nullable = false)
-   private double total;
+    @Column(name="total", nullable=false)
+    private double total;
 
-   @ManyToOne
-    @JoinColumn(name = "id_user")
-    private user user;
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user; // Se cambió a User con mayúscula
 
-public factura(int id_factura, String fecha, double total, com.samuel.crud_basic.model.user user) {
-    this.id_factura = id_factura;
-    this.fecha = fecha;
-    this.total = total;
-    this.user = user;
-}
+    // Constructor vacío requerido por JPA
+    public Factura() {
+    }
 
-public int getId_factura() {
-    return id_factura;
-}
+    // Constructor con parámetros
+    public Factura(int idFactura, LocalDate fecha, double total, User user) {
+        this.idFactura = idFactura;
+        this.fecha = fecha;
+        this.total = total;
+        this.user = user;
+    }
 
-public void setId_factura(int id_factura) {
-    this.id_factura = id_factura;
-}
+    // Getters y Setters
+    public int getIdFactura() {
+        return idFactura;
+    }
 
-public String getFecha() {
-    return fecha;
-}
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
+    }
 
-public void setFecha(String fecha) {
-    this.fecha = fecha;
-}
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
-public double getTotal() {
-    return total;
-}
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-public void setTotal(double total) {
-    this.total = total;
-}
+    public double getTotal() {
+        return total;
+    }
 
-public user getUser() {
-    return user;
-}
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
-public void setUser(user user) {
-    this.user = user;
-}
+    public User getUser() {
+        return user;
+    }
 
-    
-
-
-
-
-
-
-
-
-   
-
-   
-
-    
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
