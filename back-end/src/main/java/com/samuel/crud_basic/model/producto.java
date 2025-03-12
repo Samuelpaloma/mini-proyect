@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 
 @Entity(name="producto")
 
-public class producto {
+public class Producto {
 
     @Id
     @Column(name="id_producto")
@@ -22,7 +22,7 @@ public class producto {
     @Column(name = "precio", length = 150, nullable = false)
    private double precio;
 
-    public producto(int id_product, String nombre, double precio) {
+    public Producto(int id_product, String nombre, double precio) {
         this.id_product = id_product;
         this.nombre = nombre;
         this.precio = precio;

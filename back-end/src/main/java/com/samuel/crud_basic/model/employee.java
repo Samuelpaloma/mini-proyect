@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 
 @Entity(name="employee")
 
-public class employee {
+public class Employee {
 
     @Id
     @Column(name="id_employee")
@@ -31,7 +31,7 @@ public class employee {
 
     //Constructor
 
-    public employee(int id_employee, String name, String cargo, int salario, int telefono) {
+    public Employee(int id_employee, String name, String cargo, int salario, int telefono) {
       this.id_employee = id_employee;
       this.name = name;
       this.cargo = cargo;

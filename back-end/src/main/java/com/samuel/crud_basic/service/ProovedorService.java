@@ -36,7 +36,12 @@ public class ProovedorService {
     }
 
     public Proovedor convertToModel(ProovedorDTO proovedorDTO) {
-        Proovedor proovedor = new Proovedor();
+        Proovedor proovedor = new Proovedor(
+            0,
+            proovedorDTO.getName(),
+            proovedorDTO.getTelefono(),
+            proovedorDTO.getDireccion()
+        );
         return proovedor;
     }
 
