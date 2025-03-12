@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 
 @Entity(name="proovedor")
 
-public class proovedor {
+public class Proovedor {
 
     @Id
     @Column(name="id_proovedor")
@@ -25,11 +25,12 @@ public class proovedor {
    @Column(name = "direccion", length = 150, nullable = false)
    private String direccion;
 
-public proovedor(int id_proovedor,String name, String telefono, String direccion) {
-    this.name = name;
-    this.telefono = telefono;
-    this.direccion = direccion;
-}
+    public Proovedor(int id_proovedor,String name, String telefono, String direccion) {
+        this.id_proovedor = id_proovedor;
+        this.name = name;
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
 
 public int getId_proovedor() {
     return id_proovedor;

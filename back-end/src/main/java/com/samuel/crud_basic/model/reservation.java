@@ -1,5 +1,7 @@
 package com.samuel.crud_basic.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,10 +19,7 @@ public class Reservation {
     private int idReservation;
 
     @Column(name = "fecha", length = 100, nullable = false)
-    private String fecha;
-
-    @Column(name = "hora", length = 150, nullable = false)
-    private String hora;
+    private LocalDateTime fecha;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
@@ -35,10 +34,10 @@ public class Reservation {
     }
 
     // Constructor con parámetros
-    public Reservation(int idReservation, String fecha, String hora, User user, Mesa mesa) {
+    public Reservation(int idReservation, LocalDateTime fecha, User user, Mesa mesa) {
         this.idReservation = idReservation;
         this.fecha = fecha;
-        this.hora = hora;
+
         this.user = user;
         this.mesa = mesa;
     }
@@ -52,21 +51,14 @@ public class Reservation {
         this.idReservation = idReservation;
     }
 
-    public String getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
 
     public User getUser() {
         return user;
