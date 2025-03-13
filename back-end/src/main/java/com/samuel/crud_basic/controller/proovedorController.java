@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.samuel.crud_basic.DTO.ProovedorDTO;
-import com.samuel.crud_basic.DTO.ReservationDTO;
 import com.samuel.crud_basic.service.ProovedorService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/proovedor")
 
 public class proovedorController {
 

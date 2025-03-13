@@ -39,7 +39,7 @@ public class User {
     public User() {
     }
 
-    public User(final int idUser,final String nombre, final String email, final String contrasena,  final String telefono, final String direccion) {
+    public User( int idUser, String nombre,  String email, String contrasena, String telefono, String direccion) {
                 this.idUser = idUser;
                 this.nombre = nombre;
                 this.email = email;

@@ -20,9 +20,9 @@ public class Producto {
     private String nombre;
 
     @Column(name = "precio", length = 150, nullable = false)
-   private double precio;
+   private String precio;
 
-    public Producto(int id_product, String nombre, double precio) {
+    public Producto(int id_product, String nombre, String precio) {
         this.id_product = id_product;
         this.nombre = nombre;
         this.precio = precio;
@@ -44,11 +44,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public double getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 
