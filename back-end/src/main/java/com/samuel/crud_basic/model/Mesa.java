@@ -9,12 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity(name = "mesa")  // Se cambió "table" a "mesa"
+@Entity(name = "mesa") 
 public class Mesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_mesa")  // Se cambió "id_table" a "id_mesa"
+    @Column(name = "id_mesa") 
     private int idMesa;
 
     @Column(name = "capacidad", nullable = false)
@@ -23,21 +23,19 @@ public class Mesa {
     @Column(name = "ubicacion", length = 150, nullable = false)
     private String ubicacion;
 
-    @OneToMany(mappedBy = "mesa") // Relación con reservas
+    @OneToMany(mappedBy = "mesa") 
     private List<Reservation> reservas;
 
     // Constructor vacío requerido por JPA
     public Mesa() {
     }
 
-    // Constructor con parámetros
     public Mesa(int idMesa, int capacidad, String ubicacion) {
         this.idMesa = idMesa;
         this.capacidad = capacidad;
         this.ubicacion = ubicacion;
     }
 
-    // Getters y Setters
     public int getIdMesa() {
         return idMesa;
     }

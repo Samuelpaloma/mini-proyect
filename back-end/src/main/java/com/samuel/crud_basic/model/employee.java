@@ -23,15 +23,15 @@ public class Employee {
    private String cargo;
 
     @Column(name = "salario", length = 150, nullable = false)
-    private int salario;
+    private String salario;
 
     @Column(name = "telefono", length = 150, nullable = false)
-    private int telefono;
+    private String telefono;
 
 
     //Constructor
 
-    public Employee(int id_employee, String name, String cargo, int salario, int telefono) {
+    public Employee(int id_employee, String name, String cargo, String salario, String telefono) {
       this.id_employee = id_employee;
       this.name = name;
       this.cargo = cargo;
@@ -64,19 +64,19 @@ public class Employee {
       this.cargo = cargo;
     }
 
-    public int getSalario() {
+    public String getSalario() {
       return salario;
     }
 
-    public void setSalario(int salario) {
+    public void setSalario(String salario) {
       this.salario = salario;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
       return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
       this.telefono = telefono;
     }
 

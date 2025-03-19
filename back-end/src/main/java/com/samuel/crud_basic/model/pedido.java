@@ -24,12 +24,10 @@ public class Pedido {
     @Column(name = "estado", length = 100, nullable = false)
     private String estado;
 
-    // Relación con User (Muchos pedidos pueden pertenecer a un usuario)
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
-    // Relación con DetallePedido (Un pedido puede tener varios detalles)
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetallePedido> detallePedido;
 
@@ -37,15 +35,11 @@ public class Pedido {
     public Pedido() {
     }
 
-    // Constructor con parámetros
-    public Pedido(int id_pedido, String estado, User user, List<DetallePedido> detallePedido) {
+    public Pedido(int id_pedido, String estado) {
         this.id_pedido = id_pedido;
         this.estado = estado;
-        this.user = user;
-        this.detallePedido = detallePedido;
     }
 
-    // Getters y Setters
     public int getId_pedido() {
         return id_pedido;
     }
@@ -68,13 +62,5 @@ public class Pedido {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<DetallePedido> getDetallePedido() {
-        return detallePedido;
-    }
-
-    public void setDetallePedido(List<DetallePedido> detallePedido) {
-        this.detallePedido = detallePedido;
     }
 }

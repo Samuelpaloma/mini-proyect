@@ -21,14 +21,14 @@ public class Menu {
     private String description;
 
     @Column(name = "precio", nullable = false)
-    private double precio;
+    private String precio;
 
     // Constructor vacío (necesario para JPA)
     public Menu() {
     }
 
     // Constructor con parámetros
-    public Menu(int id_menu, String name, String description, double precio) {
+    public Menu(int id_menu, String name, String description, String precio) {
         this.id_menu = id_menu;
         this.name = name;
         this.description = description;
@@ -60,11 +60,11 @@ public class Menu {
         this.description = description;
     }
 
-    public double getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 }

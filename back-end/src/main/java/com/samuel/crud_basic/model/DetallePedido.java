@@ -11,31 +11,39 @@ public class DetallePedido {
     private int id_detalle_pedido;
 
     @Column(name = "cantidad", nullable = false)
-    private int cantidad;
+    private String cantidad;
 
-    // Relación con Pedido (Muchos detalles pueden estar en un solo pedido)
+    @Column(name = "cargo", nullable = false)
+    private String cargo;
+
+    @Column(name = "salario", nullable = false)
+    private String salario;
+
+    @Column(name = "telefono", nullable = false)
+    private String telefono;
+
     @ManyToOne
     @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
 
-    // Relación con Menu (Un detalle pertenece a un solo menú)
     @ManyToOne
     @JoinColumn(name = "id_menu", nullable = false)
     private Menu menu;
 
-    // Constructor vacío (obligatorio para JPA)
     public DetallePedido() {
     }
 
-    // Constructor con parámetros
-    public DetallePedido(int id_detalle_pedido, int cantidad, Pedido pedido, Menu menu) {
+    public DetallePedido(int id_detalle_pedido, String cantidad, String cargo, String salario, String telefono,
+            Pedido pedido, Menu menu) {
         this.id_detalle_pedido = id_detalle_pedido;
         this.cantidad = cantidad;
+        this.cargo = cargo;
+        this.salario = salario;
+        this.telefono = telefono;
         this.pedido = pedido;
         this.menu = menu;
     }
 
-    // Getters y Setters
     public int getId_detalle_pedido() {
         return id_detalle_pedido;
     }
@@ -44,12 +52,36 @@ public class DetallePedido {
         this.id_detalle_pedido = id_detalle_pedido;
     }
 
-    public int getCantidad() {
+    public String getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getSalario() {
+        return salario;
+    }
+
+    public void setSalario(String salario) {
+        this.salario = salario;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public Pedido getPedido() {
@@ -67,4 +99,6 @@ public class DetallePedido {
     public void setMenu(Menu menu) {
         this.menu = menu;
     }
+
+    
 }

@@ -33,7 +33,7 @@ public class ProductoService {
         Producto producto = new Producto(
             0,
             productoDTO.getNombre(),
-            productoDTO.getPrecio();
+            productoDTO.getPrecio()
         );
         return producto;
     }

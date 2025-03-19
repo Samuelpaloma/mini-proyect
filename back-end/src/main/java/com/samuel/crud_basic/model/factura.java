@@ -19,21 +19,21 @@ public class Factura {
     private int idFactura;
 
     @Column(name="fecha", nullable=false)
-    private LocalDate fecha; // Se cambió a LocalDate
+    private LocalDate fecha;
 
     @Column(name="total", nullable=false)
-    private double total;
+    private String total;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user; // Se cambió a User con mayúscula
+    private User user;
 
     // Constructor vacío requerido por JPA
     public Factura() {
     }
 
     // Constructor con parámetros
-    public Factura(int idFactura, LocalDate fecha, double total, User user) {
+    public Factura(int idFactura, LocalDate fecha, String total, User user) {
         this.idFactura = idFactura;
         this.fecha = fecha;
         this.total = total;
@@ -57,11 +57,11 @@ public class Factura {
         this.fecha = fecha;
     }
 
-    public double getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 
