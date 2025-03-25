@@ -28,10 +28,13 @@ public class User {
     private String contrasena;
 
     @Column(name = "telefono", length = 15, nullable = false)
-    private String telefono;  // Cambiado a String
+    private String telefono; 
 
     @Column(name = "direccion", nullable = false)
     private String direccion;
+
+    @Column(name="status",nullable=false, columnDefinition = "boolean default true")
+    private boolean status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
@@ -39,13 +42,14 @@ public class User {
     public User() {
     }
 
-    public User( int idUser, String nombre,  String email, String contrasena, String telefono, String direccion) {
+    public User( int idUser, String nombre,  String email, String contrasena, String telefono, String direccion, boolean status) {
                 this.idUser = idUser;
                 this.nombre = nombre;
                 this.email = email;
                 this.contrasena = contrasena;
                 this.telefono = telefono;
                 this.direccion = direccion;
+                this.status = status;
     }
 
     // Getters y Setters
@@ -105,5 +109,13 @@ public class User {
 
     public void setReservations(final List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    public boolean getStatus(){
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
