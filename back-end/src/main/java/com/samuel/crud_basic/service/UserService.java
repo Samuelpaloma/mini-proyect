@@ -95,5 +95,28 @@ public class UserService {
         return user;
     }
 
+    public responseDTO updateExplorer(int id, ExplorerDTO dto) {
+        Optional<Explorer> explorerOpt = repository.findById(id);
+        if (!explorerOpt.isPresent()) {
+            responseDTO respuesta = new responseDTO(
+                    HttpStatus.NOT_FOUND.toString(),
+                    "El cliente con ID " + id + " no existe");
+            return respuesta;
+        }
+        Explorer existingExplorer = explorerOpt.get();
+        existingExplorer.setName(dto.getName());
+        existingExplorer.setNationality(dto.getNationality());
+        existingExplorer.setAge(dto.getAge());
+        existingExplorer.setReputation(dto.getReputation());
+        existingExplorer.setImageExplorer(dto.getImageExplorer());
+
+        repository.save(existingExplorer);
+
+        responseDTO respuesta = new responseDTO(
+                HttpStatus.OK.toString(),
+                "Explorer actualizado correctamente");
+        return respuesta;
+    }
+
 }
 

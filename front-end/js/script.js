@@ -1,100 +1,78 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadStudents(); // Cargar estudiantes al iniciar
 
-    document.getElementById("add-student-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        addStudent();
-    });
+        document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector(".filter-input").addEventListener("input", filterStudents);
-});
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+   
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
 
-let students = JSON.parse(localStorage.getItem("students")) || [];
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
 
-// 🔍 Cargar y mostrar estudiantes
-function loadStudents() {
-    const tableBody = document.querySelector("#students tbody");
-    tableBody.innerHTML = "";
-    
-    students.forEach((student, index) => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>${student.email}</td>
-            <td>${student.enrollmentDate}</td>
-            <td>
-                <button onclick="editStudent(${index})">✏️</button>
-                <button onclick="deleteStudent(${index})">🗑️</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+                    this.classList.add('active');
+                    
 
-// ➕ Agregar estudiante
-function addStudent() {
-    let name = document.getElementById("student-name").value;
-    let email = document.getElementById("student-email").value;
-    let date = document.getElementById("student-date").value;
+                    const sectionId = this.getAttribute('data-section');
+                    
 
-    let newStudent = {
-        id: students.length + 1,
-        name,
-        email,
-        enrollmentDate: date
-    };
+                    document.querySelectorAll('section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
 
-    students.push(newStudent);
-    localStorage.setItem("students", JSON.stringify(students));
-    
-    document.getElementById("add-student-form").reset();
-    loadStudents();
-}
+                    document.getElementById(sectionId).classList.add('active');
 
-// ❌ Eliminar estudiante
-function deleteStudent(index) {
-    students.splice(index, 1);
-    localStorage.setItem("students", JSON.stringify(students));
-    loadStudents();
-}
-
-// ✏️ Editar estudiante
-function editStudent(index) {
-    let student = students[index];
-    let newName = prompt("Nuevo nombre:", student.name);
-    let newEmail = prompt("Nuevo email:", student.email);
-    let newDate = prompt("Nueva fecha de inscripción:", student.enrollmentDate);
-
-    if (newName && newEmail && newDate) {
-        students[index] = { id: student.id, name: newName, email: newEmail, enrollmentDate: newDate };
-        localStorage.setItem("students", JSON.stringify(students));
-        loadStudents();
-    }
-}
-
-// 🔍 Filtrar estudiantes
-function filterStudents() {
-    let query = document.querySelector(".filter-input").value.toLowerCase();
-    let filteredStudents = students.filter(student => 
-        student.name.toLowerCase().includes(query) || student.email.toLowerCase().includes(query)
-    );
-
-    const tableBody = document.querySelector("#students tbody");
-    tableBody.innerHTML = "";
-
-    filteredStudents.forEach((student, index) => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>${student.email}</td>
-            <td>${student.enrollmentDate}</td>
-            <td>
-                <button onclick="editStudent(${index})">✏️</button>
-                <button onclick="deleteStudent(${index})">🗑️</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+                    history.pushState(null, null, `#${sectionId}`);
+                });
+            });
+            
+            // Manejar la navegación por historial (botones atrás/adelante)
+            window.addEventListener('popstate', function() {
+                const hash = window.location.hash.substring(1) || 'inicio';
+                
+                // Actualizar navegación y secciones activas
+                navLinks.forEach(link => {
+                    if (link.getAttribute('data-section') === hash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                document.querySelectorAll('section').forEach(section => {
+                    if (section.id === hash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Manejar envío del formulario de reserva
+            const reservaForm = document.getElementById('reserva-form');
+            if (reservaForm) {
+                reservaForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('¡Reserva realizada con éxito! Te contactaremos para confirmar.');
+                    this.reset();
+                });
+            }
+            
+            // Manejar la carga inicial según el hash en la URL
+            const initialHash = window.location.hash.substring(1) || 'inicio';
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(initialHash).classList.add('active');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-section') === initialHash) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });

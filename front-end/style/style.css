@@ -1,70 +1,189 @@
-body {
-    font-family: Arial, sans-serif;
+* {
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
 header {
-    background-color: #8B0000;
+    background-color: #4a2c2a;
     color: white;
-    text-align: center;
-    padding: 1rem 0;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+header h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-family: 'Georgia', serif;
+}
+
 nav ul {
-    list-style: none;
-    padding: 0;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    list-style: none;
 }
+
 nav ul li {
-    display: inline;
+    margin: 0 15px;
 }
+
 nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
+
+nav ul li a:hover, nav ul li a.active {
+    background-color: #6d4036;
+}
+
 section {
-    padding: 20px;
+    padding: 3rem;
+    min-height: 100vh;
+    display: none; /* Ocultar todas las secciones por defecto */
+}
+
+section.active {
+    display: block; /* Mostrar solo la sección activa */
+}
+
+section h2 {
+    color: #4a2c2a;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+#inicio {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)), url('/api/placeholder/1200/800');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding-top: 15vh;
+}
+
+#inicio p {
+    font-size: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #333;
+}
+
+#menu {
+    background-color: #fff;
+}
+
+.platos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.plato {
+    width: 300px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.plato:hover {
+    transform: translateY(-5px);
+}
+
+.plato img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.plato-info {
+    padding: 1rem;
     text-align: center;
 }
-.plato {
-    display: inline-block;
-    margin: 20px;
-    padding: 10px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+.plato-info h3 {
+    color: #4a2c2a;
+    margin-bottom: 0.5rem;
 }
-.plato img {
-    width: 200px;
-    border-radius: 10px;
+
+.plato-info p {
+    font-weight: bold;
+    color: #6d4036;
 }
+
+#reservas {
+    background-color: #f9f5f2;
+}
+
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-input, button {
-    margin: 10px;
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4a2c2a;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
     padding: 10px;
-    width: 80%;
-    max-width: 300px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
-button {
-    background-color: #8B0000;
+
+form button {
+    background-color: #4a2c2a;
     color: white;
     border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.3s;
 }
+
+form button:hover {
+    background-color: #6d4036;
+}
+
+#contacto {
+    background-color: #fff;
+    text-align: center;
+}
+
+#contacto p {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
 footer {
-    background-color: #8B0000;
+    background-color: #333;
     color: white;
     text-align: center;
-    padding: 1rem 0;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    padding: 1rem;
 }

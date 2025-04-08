@@ -4,65 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabor & Arte - Restaurante</title>
-    <link rel="stylesheet" href="./style/style.css">
-
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <header>
         <h1>Sabor & Arte</h1>
         <nav>
             <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#menu">Menú</a></li>
-                <li><a href="#reservas">Reservas</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#inicio" class="nav-link active" data-section="inicio">Inicio</a></li>
+                <li><a href="#menu" class="nav-link" data-section="menu">Menú</a></li>
+                <li><a href="#reservas" class="nav-link" data-section="reservas">Reservas</a></li>
+                <li><a href="#contacto" class="nav-link" data-section="contacto">Contacto</a></li>
             </ul>
         </nav>
     </header>
     
-    <section id="inicio">
+    <section id="inicio" class="active">
         <h2>Bienvenido a Sabor & Arte</h2>
-        <p>Un lugar donde la gastronomía y la creatividad se encuentran.</p>
+        <p>Un lugar donde la gastronomía y la creatividad se encuentran para ofrecerte una experiencia culinaria inolvidable.</p>
+        <p>Disfruta de nuestros platos preparados con ingredientes frescos y de la más alta calidad.</p>
     </section>
     
     <section id="menu">
         <h2>Nuestro Menú</h2>
-        <div class="plato">
-            <img src="plato1.jpg" alt="Plato 1">
-            <h3>Pasta Alfredo</h3>
-            <p>$12.99</p>
-        </div>
-        <div class="plato">
-            <img src="plato2.jpg" alt="Plato 2">
-            <h3>Hamburguesa Gourmet</h3>
-            <p>$10.99</p>
+        <div class="platos-container">
+            <div class="plato">
+                <img src="/api/placeholder/300/200" alt="Pasta Alfredo">
+                <div class="plato-info">
+                    <h3>Pasta Alfredo</h3>
+                    <p>$12.99</p>
+                </div>
+            </div>
+            <div class="plato">
+                <img src="/api/placeholder/300/200" alt="Hamburguesa Gourmet">
+                <div class="plato-info">
+                    <h3>Hamburguesa artesanos</h3>
+                    <p>$10.99</p>
+                </div>
+            </div>
+            <div class="plato">
+                <img src="/api/placeholder/300/200" alt="Ensalada César">
+                <div class="plato-info">
+                    <h3>Ensalada César</h3>
+                    <p>$8.99</p>
+                </div>
+            </div>
+            <div class="plato">
+                <img src="/api/placeholder/300/200" alt="Lomo Saltado">
+                <div class="plato-info">
+                    <h3>Lomo Saltado</h3>
+                    <p>$15.99</p>
+                </div>
+            </div>
         </div>
     </section>
     
     <section id="reservas">
         <h2>Reservaciones</h2>
-        <form>
+        <form id="reserva-form">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" required>
             
             <label for="fecha">Fecha:</label>
             <input type="date" id="fecha" required>
             
-            <label for="personas">Número de personas:</label>
-            <input type="number" id="personas" required>
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" required>
             
-            <button type="submit">Reservar</button>
+            <label for="personas">Número de personas:</label>
+            <input type="number" id="personas" min="1" max="20" required>
+            
+            <button type="submit">Reservar Mesa</button>
         </form>
     </section>
     
     <section id="contacto">
         <h2>Contacto</h2>
-        <p>📍 Dirección: Calle 123, Ciudad</p>
+        <p>📍 Dirección: Calle 50 #30, Rivera</p>
         <p>📞 Teléfono: 123-456-7890</p>
+        <p>✉️ Email: sabpryarte@gmail.com</p>
+        <p>🕒 Horario: Lunes a Domingo de 12:00 PM a 11:00 PM</p>
     </section>
     
     <footer>
         <p>&copy; 2025 Sabor & Arte - Todos los derechos reservados</p>
     </footer>
+    <script src="js/script.js"></script>
+
 </body>
 </html>

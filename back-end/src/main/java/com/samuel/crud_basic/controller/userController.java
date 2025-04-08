@@ -61,4 +61,11 @@ public class userController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateExplorer(@PathVariable int id, @RequestBody ExplorerDTO dto) {
+        //TODO: process PUT request
+            responseDTO respuesta = explorerService.updateExplorer(id, dto);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+    }
+
 }
