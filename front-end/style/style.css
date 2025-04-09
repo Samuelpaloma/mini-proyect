@@ -187,3 +187,64 @@ footer {
     text-align: center;
     padding: 1rem;
 }
+
+#busqueda-filtro {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+.filtros-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.busqueda {
+    flex: 1;
+    min-width: 250px;
+}
+
+.filtro-precio {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+#buscar-plato {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#precio-min, #precio-max {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#aplicar-filtros {
+    background-color: #6b302a;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#aplicar-filtros:hover {
+    background-color: #522320;
+}
+
+/* Añadimos una clase para ocultar platos que no cumplan con los filtros */
+.plato.oculto {
+    display: none;
+}
