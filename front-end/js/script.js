@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ===== Filtrado del menú =====
     const buscarInput = document.getElementById('buscar-plato');
     const precioMinInput = document.getElementById('precio-min');
     const precioMaxInput = document.getElementById('precio-max');

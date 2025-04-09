@@ -188,43 +188,75 @@ footer {
     padding: 1rem;
 }
 
-#busqueda-filtro {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #f8f8f8;
-    border-radius: 8px;
-}
-
-.filtros-container {
+/* Estilos para la sección de menú con filtrado lateral */
+.menu-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.menu-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.filtros-sidebar {
+    width: 250px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+}
+
+.filtros-sidebar h3 {
+    color: #6b302a;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #6b302a;
+    padding-bottom: 10px;
+}
+
+.filtros-sidebar h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #6b302a;
 }
 
 .busqueda {
-    flex: 1;
-    min-width: 250px;
+    margin-bottom: 20px;
 }
 
-.filtro-precio {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
+.busqueda label, .precio-campo label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 #buscar-plato {
     width: 100%;
-    padding: 8px 12px;
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 15px;
+}
+
+.precio-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.precio-campo {
+    flex: 1;
 }
 
 #precio-min, #precio-max {
-    width: 80px;
+    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -234,17 +266,73 @@ footer {
     background-color: #6b302a;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
+    font-weight: bold;
 }
 
 #aplicar-filtros:hover {
     background-color: #522320;
 }
 
-/* Añadimos una clase para ocultar platos que no cumplan con los filtros */
+/* Estilos para los platos */
+.platos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.plato {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.plato:hover {
+    transform: translateY(-5px);
+}
+
+.plato img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.plato-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.plato-info h3 {
+    margin-top: 0;
+    color: #6b302a;
+}
+
+.plato-info p {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+/* Clase para ocultar platos que no cumplan con los filtros */
 .plato.oculto {
     display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+    }
+    
+    .filtros-sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 20px;
+    }
 }
