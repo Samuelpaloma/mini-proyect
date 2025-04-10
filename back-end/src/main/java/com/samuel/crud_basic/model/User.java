@@ -111,7 +111,7 @@ public class User {
         this.reservations = reservations;
     }
 
-    public boolean getStatus(){
+    public boolean getStatus() {
         return status;
     }
 

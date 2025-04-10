@@ -30,7 +30,7 @@ public class MenuDTO {
         this.description = description;
     }
 
-    public String getPprecio(){
+    public String getPrecio(){
         return precio;
     }
 

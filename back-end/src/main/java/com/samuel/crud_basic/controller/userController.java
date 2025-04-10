@@ -1,5 +1,8 @@
 package com.samuel.crud_basic.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.samuel.crud_basic.DTO.UserDTO;
 import com.samuel.crud_basic.DTO.responseDTO;
+import com.samuel.crud_basic.model.User;
 import com.samuel.crud_basic.service.UserService;
 
 @RestController
@@ -37,13 +41,13 @@ public class userController {
 
     @GetMapping("/")
     public ResponseEntity<Object> getAllUser() {
-        var listaUsuario = userService.findAll();
+        List<User> listaUsuario = userService.findAll();
         return new ResponseEntity<>(listaUsuario, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOneUser(@PathVariable int id) {
-        var usuario = userService.findById(id);
+        Optional<User> usuario = userService.findById(id);
         if (!usuario.isPresent())
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(usuario, HttpStatus.OK);
@@ -51,15 +55,14 @@ public class userController {
 
     @GetMapping("/filter/{filter}")
     public ResponseEntity<Object> getListUserForName(@PathVariable String filter) {
-        var userList = userService.getListUserForName(filter);
+        List<User> userList = userService.getListUserForName(filter);
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable int id) {
-        var message = userService.deleteUser(id);
-
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    responseDTO message = userService.deleteUser(id);
+    return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

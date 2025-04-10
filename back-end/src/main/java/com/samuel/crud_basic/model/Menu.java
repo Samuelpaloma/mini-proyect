@@ -23,16 +23,20 @@ public class Menu {
     @Column(name = "precio", nullable = false)
     private String precio;
 
+    @Column(name="status",nullable=false, columnDefinition = "boolean default true")
+    private boolean status;
+
     // Constructor vacío (necesario para JPA)
     public Menu() {
     }
 
-    // Constructor con parámetros
-    public Menu(int id_menu, String name, String description, String precio) {
+
+    public Menu(int id_menu,String description, String name, String precio, boolean status) {
         this.id_menu = id_menu;
-        this.name = name;
         this.description = description;
+        this.name = name;
         this.precio = precio;
+        this.status = status;
     }
 
     // Getters y Setters
@@ -67,4 +71,13 @@ public class Menu {
     public void setPrecio(String precio) {
         this.precio = precio;
     }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
 }
