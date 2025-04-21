@@ -108,4 +108,5 @@ document.addEventListener('DOMContentLoaded', function() {
         precioMinInput.value = 0;
         precioMaxInput.value = 20;
     }
+    
 });

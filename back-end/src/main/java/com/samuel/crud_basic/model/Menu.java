@@ -17,8 +17,8 @@ public class Menu {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "description", length = 150, nullable = false)
-    private String description;
+    @Column(name = "imagen", length = 150, nullable = false)
+    private String imagen;
 
     @Column(name = "precio", nullable = false)
     private String precio;
@@ -31,9 +31,9 @@ public class Menu {
     }
 
 
-    public Menu(int id_menu,String description, String name, String precio, boolean status) {
+    public Menu(int id_menu,String imagen, String name, String precio, boolean status) {
         this.id_menu = id_menu;
-        this.description = description;
+        this.imagen = imagen;
         this.name = name;
         this.precio = precio;
         this.status = status;
@@ -56,12 +56,12 @@ public class Menu {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getPrecio() {

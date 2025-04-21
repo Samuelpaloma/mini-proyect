@@ -3,15 +3,15 @@ package com.samuel.crud_basic.DTO;
 public class MenuDTO {
     private String name;
 
-    private String description;
+    private String imagen;
     
     private String precio;
 
     public MenuDTO(){}
 
-    public MenuDTO(String name, String description, String precio) {
+    public MenuDTO(String name, String imagen, String precio) {
         this.name = name;
-        this.description = description;
+        this.imagen = imagen;
     }
 
     public String getName() {
@@ -22,12 +22,12 @@ public class MenuDTO {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getPrecio(){

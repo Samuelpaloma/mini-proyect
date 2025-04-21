@@ -52,8 +52,8 @@ public class MenuService {
 
     // register and update
     public responseDTO save(MenuDTO menuDTO) {
-        if(menuDTO.getDescription().length() < 1 ||
-        menuDTO.getDescription().length() > 50) {
+        if(menuDTO.getImagen().length() < 1 ||
+        menuDTO.getImagen().length() > 50) {
             responseDTO respuesta = new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
                 "El nombre debe estar entre 1 y 50 caracteres");
@@ -70,7 +70,7 @@ public class MenuService {
     public MenuDTO convertToDTO(Menu menu) {
         MenuDTO menuDTO = new MenuDTO(
             menu.getName(),
-            menu.getDescription(),
+            menu.getImagen(),
             menu.getPrecio()
         );
         return menuDTO;
@@ -79,7 +79,7 @@ public class MenuService {
     public Menu convertToModel(MenuDTO menuDTO) {
         Menu menu = new Menu(
             0,
-            menuDTO.getDescription(),
+            menuDTO.getImagen(),
             menuDTO.getName(),
             menuDTO.getPrecio(),
             true
@@ -97,7 +97,7 @@ public class MenuService {
         }
         Menu existingMenu = menuOpt.get();
         existingMenu.setName(dto.getName());
-        existingMenu.setDescription(dto.getDescription());
+        existingMenu.setImagen(dto.getImagen());
         existingMenu.setPrecio(dto.getPrecio());
 
         data.save(existingMenu);
