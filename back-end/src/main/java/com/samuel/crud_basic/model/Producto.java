@@ -22,6 +22,9 @@ public class Producto {
     @Column(name = "precio", length = 150, nullable = false)
    private String precio;
 
+   public Producto() {
+    }
+
     public Producto(int id_product, String nombre, String precio) {
         this.id_product = id_product;
         this.nombre = nombre;

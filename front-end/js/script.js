@@ -69,44 +69,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    const buscarInput = document.getElementById('buscar-plato');
-    const precioMinInput = document.getElementById('precio-min');
-    const precioMaxInput = document.getElementById('precio-max');
-    const aplicarFiltrosBtn = document.getElementById('aplicar-filtros');
-    const platos = document.querySelectorAll('.plato');
-    
-    // Función para filtrar platos
-    function filtrarPlatos() {
-        const textoBusqueda = buscarInput.value.toLowerCase();
-        const precioMin = parseFloat(precioMinInput.value) || 0;
-        const precioMax = parseFloat(precioMaxInput.value) || Infinity;
-        
-        platos.forEach(plato => {
-            const nombrePlato = plato.querySelector('h3').textContent.toLowerCase();
-            const precioTexto = plato.querySelector('p').textContent.replace('$', '');
-            const precio = parseFloat(precioTexto);
-            
-            // Comprobamos si el plato cumple con los criterios de filtrado
-            const coincideNombre = nombrePlato.includes(textoBusqueda);
-            const coincidePrecio = precio >= precioMin && precio <= precioMax;
-            
-            // Mostramos u ocultamos el plato según los filtros
-            if (coincideNombre && coincidePrecio) {
-                plato.classList.remove('oculto');
-            } else {
-                plato.classList.add('oculto');
-            }
-        });
-    }
-    
-    // Event listeners para los elementos de filtrado
-    if (buscarInput && aplicarFiltrosBtn) {
-        buscarInput.addEventListener('input', filtrarPlatos);
-        aplicarFiltrosBtn.addEventListener('click', filtrarPlatos);
-        
-        // Inicializar valores
-        precioMinInput.value = 0;
-        precioMaxInput.value = 20;
-    }
     
 });

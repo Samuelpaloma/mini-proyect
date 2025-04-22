@@ -31,58 +31,19 @@
             <div class="menu-content">
                 <h2>Nuestro Menú</h2>
                 <div class="platos-container">
-                    <div class="plato">
-                        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/24P2OKC3RVEHRD3F2VKQ76XX7M.jpg" alt="Pasta Alfredo">
-                        <div class="plato-info" >
-                            <h3>Pasta Alfredo</h3>
-                            <p>$12.99</p>
-                        </div>
-                    </div>
-                    <div class="plato">
-                        <img src="/api/placeholder/300/200" alt="Pasta Alfredo">
-                        <div class="plato-info" >
-                            <h3>Pasta Alfredo</h3>
-                            <p>$12.99</p>
-                        </div>
-                    </div>
-                    <div class="plato">
-                        <img src="/api/placeholder/300/200" alt="Hamburguesa Gourmet">
-                        <div class="plato-info">
-                            <h3>Hamburguesa artesanos</h3>
-                            <p>$10.99</p>
-                        </div>
-                    </div>
-                    <div class="plato">
-                        <img src="/api/placeholder/300/200" alt="Ensalada César">
-                        <div class="plato-info">
-                            <h3>Ensalada César</h3>
-                            <p>$8.99</p>
-                        </div>
-                    </div>
-                    <div class="plato">
-                        <img src="/api/placeholder/300/200" alt="Lomo Saltado">
-                        <div class="plato-info">
-                            <h3>Lomo Saltado</h3>
-                            <p>$15.99</p>
-                        </div>
-                    </div>
-                    <div class="plato">
-                        <h3>Agregar nuevo producto</h3>
-                        <input type="text" id="nombre" placeholder="Nombre del plato">
-                        <input type="number" id="precio" placeholder="Precio">
-                        <input type="text" id="imagen" placeholder="URL de la imagen">
-                        <button onclick="agregarProducto()">Agregar</button>
-                      </div>
+                    
                 </div>
             </div>
             
             <div class="filtros-sidebar">
-                <h3>Buscar y Filtrar</h3>
-                <div class="busqueda">
-                    <label for="buscar-plato">Buscar:</label>
-                    <input type="text" id="buscar-plato" placeholder="Nombre del plato...">
-                </div>
                 <div class="filtro-precio">
+                    <div class="filtro-busqueda">
+                        <h4>Buscar por nombre</h4>
+                        <div class="busqueda-campo">
+                            <label for="busqueda-nombre">Nombre:</label>
+                            <input type="text" id="busqueda-nombre" placeholder="Buscar plato...">
+                        </div>
+                    </div>
                     <h4>Filtrar por precio</h4>
                     <div class="precio-inputs">
                         <div class="precio-campo">
