@@ -5,13 +5,14 @@ public class MenuDTO {
 
     private String imagen;
     
-    private String precio;
+    private Double precio;
 
     public MenuDTO(){}
 
-    public MenuDTO(String name, String imagen, String precio) {
+    public MenuDTO(String name, String imagen, Double precio) {
         this.name = name;
         this.imagen = imagen;
+        this.precio = precio;
     }
 
     public String getName() {
@@ -30,13 +31,14 @@ public class MenuDTO {
         this.imagen = imagen;
     }
 
-    public String getPrecio(){
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio){
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
+
 
     
 }

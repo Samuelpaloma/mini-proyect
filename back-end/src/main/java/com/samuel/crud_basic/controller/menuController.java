@@ -30,8 +30,8 @@ public class menuController {
 
     @PostMapping("/")
     public ResponseEntity<Object> registerMenu(@RequestBody MenuDTO menu){
-        menuService.save(menu);
-        return new ResponseEntity<>("register OK", HttpStatus.OK);
+        responseDTO respuesta = menuService.save(menu);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
     }
 
      @GetMapping("/")

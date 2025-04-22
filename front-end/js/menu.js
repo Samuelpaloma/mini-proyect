@@ -5,16 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function agregarProducto() {
-  const nombre = document.getElementById('nombre').value.trim();
+  const name = document.getElementById('nombre').value.trim();
   const precio = parseFloat(document.getElementById('precio').value.trim());
   const imagen = document.getElementById('imagen').value.trim();
 
-  if (!nombre || isNaN(precio)) {
+  if (!name || isNaN(precio)) {
     alert("Por favor completa todos los campos.");
     return;
   }
 
-  const producto = { nombre, precio, imagen };
+  const producto = { name, precio, imagen };
 
   fetch('http://localhost:8080/api/v1/menu/', {
     method: 'POST',
@@ -57,4 +57,16 @@ function renderMenu(lista) {
 
     contenedor.appendChild(divPlato);
   });
+}
+
+function getMenu() {
+  fetch('http://localhost:8080/api/v1/menu/')
+    .then(response => response.json())
+    .then(data => {
+      menuGlobal = data;
+      renderMenu(menuGlobal);
+    })
+    .catch(error => {
+      console.error('Error al obtener el menú:', error);
+    });
 }

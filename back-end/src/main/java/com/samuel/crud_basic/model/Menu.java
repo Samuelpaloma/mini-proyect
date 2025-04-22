@@ -17,11 +17,11 @@ public class Menu {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "imagen", length = 150, nullable = false)
+    @Column(name = "imagen", columnDefinition = "LONGTEXT", nullable = false)
     private String imagen;
 
     @Column(name = "precio", nullable = false)
-    private String precio;
+    private Double precio;
 
     @Column(name="status",nullable=false, columnDefinition = "boolean default true")
     private boolean status;
@@ -31,7 +31,7 @@ public class Menu {
     }
 
 
-    public Menu(int id_menu,String imagen, String name, String precio, boolean status) {
+    public Menu(int id_menu,String imagen, String name, Double precio, boolean status) {
         this.id_menu = id_menu;
         this.imagen = imagen;
         this.name = name;
@@ -64,11 +64,11 @@ public class Menu {
         this.imagen = imagen;
     }
 
-    public String getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

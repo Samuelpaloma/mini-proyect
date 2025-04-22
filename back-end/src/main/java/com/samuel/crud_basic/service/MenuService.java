@@ -52,18 +52,22 @@ public class MenuService {
 
     // register and update
     public responseDTO save(MenuDTO menuDTO) {
-        if(menuDTO.getImagen().length() < 1 ||
-        menuDTO.getImagen().length() > 50) {
+        System.out.println("Nombre recibido: " + menuDTO.getName());
+        // Verificamos primero si name es null
+        if(menuDTO.getName() == null || 
+           menuDTO.getName().length() < 1 || 
+           menuDTO.getName().length() > 50) {
             responseDTO respuesta = new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
-                "El nombre debe estar entre 1 y 50 caracteres");
+                "El nombre no puede ser nulo y debe estar entre 1 y 50 caracteres");
             return respuesta;    
         }
+    
         Menu menuRegister = convertToModel(menuDTO);
         data.save(menuRegister);
         responseDTO respuesta = new responseDTO(
             HttpStatus.OK.toString(),
-            "Se gurado correctamente");
+            "Se guardó correctamente");
         return respuesta;    
     }
 
