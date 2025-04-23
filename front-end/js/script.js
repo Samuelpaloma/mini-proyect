@@ -68,6 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.remove('active');
         }
     });
+
+    const celularInput = document.getElementById('celular');
     
+    celularInput.addEventListener('input', function () {
+        // Limitar a 10 dígitos
+        if (this.value.length > 10) {
+            this.value = this.value.slice(0, 10);
+        }
+    });
     
 });

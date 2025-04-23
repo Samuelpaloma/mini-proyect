@@ -14,6 +14,6 @@ public interface  Imenu extends JpaRepository
     @Query("SELECT u FROM Menu u WHERE u.status != false")
     List<Menu> getListMenuActive();
 
-    @Query("SELECT u FROM Menu u WHERE u.name LIKE %:filter%")
+    @Query("SELECT u FROM Menu u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :filter, '%'))")
     List<Menu> getListMenuForName(String filter);
 }

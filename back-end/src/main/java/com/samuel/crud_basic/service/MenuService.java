@@ -52,8 +52,6 @@ public class MenuService {
 
     // register and update
     public responseDTO save(MenuDTO menuDTO) {
-        System.out.println("Nombre recibido: " + menuDTO.getName());
-        // Verificamos primero si name es null
         if(menuDTO.getName() == null || 
            menuDTO.getName().length() < 1 || 
            menuDTO.getName().length() > 50) {

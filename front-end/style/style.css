@@ -49,6 +49,21 @@ nav ul li a {
 nav ul li a:hover, nav ul li a.active {
     background-color: #6d4036;
 }
+.login-container {
+    margin-left: auto;
+    text-align: right;
+   
+}
+
+.login-button {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
 
 section {
     padding: 3rem;
@@ -319,12 +334,10 @@ footer {
     margin-bottom: 0;
 }
 
-/* Clase para ocultar platos que no cumplan con los filtros */
 .plato.oculto {
     display: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .menu-container {
         flex-direction: column;
