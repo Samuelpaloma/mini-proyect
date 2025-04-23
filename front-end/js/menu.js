@@ -72,7 +72,6 @@ function agregarProducto() {
 }
 
 function renderMenu(lista) {
-
   const contenedor = document.querySelector('.platos-container');
   if (!contenedor) {
     console.error("No se encontró el contenedor '.platos-container'");
@@ -84,37 +83,36 @@ function renderMenu(lista) {
   if (!Array.isArray(lista) || lista.length === 0) {
     const mensajeNoResultados = document.createElement('div');
     mensajeNoResultados.classList.add('sin-resultados');
-    mensajeNoResultados.innerHTML = '<h3>No se encontraron productos que coincidan con la búsqueda</h3>';
+    mensajeNoResultados.innerHTML = '<h3>No hay productos. Agrega uno nuevo para comenzar.</h3>';
     contenedor.appendChild(mensajeNoResultados);
-    return;
+  } else {
+    lista.forEach(plato => {
+      const divPlato = document.createElement('div');
+      divPlato.classList.add('plato');
+
+      const nombre = plato.name || "Sin nombre";
+      const precio = parseFloat(plato.precio) || 0;
+      const imagen = plato.imagen;
+
+      divPlato.innerHTML = `
+        <img src="${imagen}" alt="${nombre}">
+        <div class="plato-info">
+            <h3>${nombre}</h3>
+            <p>$${precio.toFixed(2)}</p>
+            <div class="botones">
+              <button class="btn-eliminar" data-id="${plato.id_menu}">Eliminar</button>
+              <button class="btn-actualizar" data-id="${plato.id_menu}">Actualizar</button>
+            </div>
+        </div>
+      `;
+
+      contenedor.appendChild(divPlato);
+    });
   }
 
-  lista.forEach(plato => {
-    const divPlato = document.createElement('div');
-    divPlato.classList.add('plato');
-
-    const nombre = plato.name || "Sin nombre";
-    const precio = parseFloat(plato.precio) || 0; 
-    const imagen = plato.imagen;
-
-    divPlato.innerHTML = `
-      <img src="${imagen}" alt="${nombre}">
-      <div class="plato-info">
-          <h3>${nombre}</h3>
-          <p>$${precio.toFixed(2)}</p>
-          <div class="botones">
-            <button class="btn-eliminar" data-id="${plato.id_menu}">Eliminar</button>
-            <button class="btn-actualizar" data-id="${plato.id_menu}">Actualizar</button>
-          </div>
-      </div>
-    `;
-
-    contenedor.appendChild(divPlato);
-  });
-
+  // Agregar tarjeta para nuevo producto
   const cardAgregar = document.createElement('div');
   cardAgregar.classList.add('plato');
-
   cardAgregar.innerHTML = ` 
     <h3>Agregar nuevo producto</h3>
     <input type="text" id="nombre" placeholder="Nombre del plato">
@@ -122,7 +120,6 @@ function renderMenu(lista) {
     <input type="text" id="imagen" placeholder="URL de la imagen">
     <button onclick="agregarProducto()">Agregar</button>
   `;
-
   contenedor.appendChild(cardAgregar);
 
   // Botón eliminar

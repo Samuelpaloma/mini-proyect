@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.samuel.crud_basic.DTO.MenuDTO;
 import com.samuel.crud_basic.DTO.ReservationDTO;
 import com.samuel.crud_basic.DTO.responseDTO;
 import com.samuel.crud_basic.model.Reservation;
@@ -94,6 +93,7 @@ public class ReservationService {
             reservation.getUser(),
             reservation.getMesa()
         );
+        return reservationDTO;
     }
 
     // Convertir a modelo
@@ -109,6 +109,7 @@ public class ReservationService {
             reservationDTO.getMesa(),
             true
         );
+        return reservation;
     }
 
     // Actualizar una reserva

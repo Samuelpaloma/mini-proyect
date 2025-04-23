@@ -12,11 +12,11 @@ public interface Ireservation extends JpaRepository
 
 {
 
-    @Query("SELECT r FROM Reservation r WHERE r.status != false")
-    List<Reservation> getListReservationsActive();
+    @Query("SELECT u FROM Reservation u WHERE u.status != false")
+    List<Reservation> getListReservationActive();
 
     // Filtrar reservas por nombre del usuario
-    @Query("SELECT r FROM Reservation r WHERE LOWER(r.name) LIKE LOWER(CONCAT('%', :filter, '%'))")
+    @Query("SELECT u FROM Reservation u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :filter, '%'))")
     List<Reservation> getListReservationForName(String filter);
     /*
      * C
