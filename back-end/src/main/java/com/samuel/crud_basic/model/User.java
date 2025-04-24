@@ -36,9 +36,6 @@ public class User {
     @Column(name="status",nullable=false, columnDefinition = "boolean default true")
     private boolean status;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reservation> reservations;
-
     public User() {
     }
 
@@ -102,15 +99,7 @@ public class User {
     public void setDireccion(final String direccion) {
         this.direccion = direccion;
     }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(final List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
+    
     public boolean getStatus() {
         return status;
     }

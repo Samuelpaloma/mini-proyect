@@ -9,60 +9,82 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@Entity(name = "mesa") 
+@Entity
 public class Mesa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_mesa") 
-    private int idMesa;
+    private int idMesa; // Identificador único de la mesa
 
-    @Column(name = "capacidad", nullable = false)
-    private int capacidad;
+    @Column(nullable = false)
+    private int capacidad; // Capacidad de la mesa
 
-    @Column(name = "ubicacion", length = 150, nullable = false)
-    private String ubicacion;
+    @Column(nullable = false)
+    private String ubicacion; // Ubicación de la mesa
+
+    @Column(nullable = false)
+    private boolean ocupada = false; // Estado de ocupación de la mesa
 
     @OneToMany(mappedBy = "mesa") 
     private List<Reservation> reservas;
+
 
     // Constructor vacío requerido por JPA
     public Mesa() {
     }
 
-    public Mesa(int idMesa, int capacidad, String ubicacion) {
+
+    public Mesa(int idMesa,int capacidad, String ubicacion, boolean ocupada, List<Reservation> reservas) {
         this.idMesa = idMesa;
         this.capacidad = capacidad;
         this.ubicacion = ubicacion;
-    }
-
-    public int getIdMesa() {
-        return idMesa;
+        this.ocupada = ocupada;
+        this.reservas = reservas;
     }
 
     public void setIdMesa(int idMesa) {
         this.idMesa = idMesa;
     }
 
+    public int getIdMesa(){
+        return idMesa;
+    }
+
+
     public int getCapacidad() {
         return capacidad;
     }
+
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
     }
 
+
     public String getUbicacion() {
         return ubicacion;
     }
+
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
 
+
+    public boolean isOcupada() {
+        return ocupada;
+    }
+
+
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
+    }
+
+
     public List<Reservation> getReservas() {
         return reservas;
     }
+
 
     public void setReservas(List<Reservation> reservas) {
         this.reservas = reservas;

@@ -53,12 +53,6 @@ public class ReservationService {
     // Registrar y actualizar una reserva
     public responseDTO save(ReservationDTO reservationDTO) {
         // Validación de datos básicos
-        if (reservationDTO.getUser() == null) {
-            return new responseDTO(
-                HttpStatus.BAD_REQUEST.toString(),
-                "El usuario no puede ser nulo"
-            );
-        }
         if (reservationDTO.getMesa() == null) {
             return new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
@@ -90,7 +84,6 @@ public class ReservationService {
             reservation.getHora(),
             reservation.getNumeroPersonas(),
             reservation.getNumeroCelular(),
-            reservation.getUser(),
             reservation.getMesa()
         );
         return reservationDTO;
@@ -105,7 +98,6 @@ public class ReservationService {
             reservationDTO.getHora(),
             reservationDTO.getNumeroPersonas(),
             reservationDTO.getNumeroCelular(),
-            reservationDTO.getUser(),
             reservationDTO.getMesa(),
             true
         );
@@ -128,7 +120,6 @@ public class ReservationService {
         existingReservation.setHora(reservationDTO.getHora());
         existingReservation.setNumeroPersonas(reservationDTO.getNumeroPersonas());
         existingReservation.setNumeroCelular(reservationDTO.getNumeroCelular());
-        existingReservation.setUser(reservationDTO.getUser());
         existingReservation.setMesa(reservationDTO.getMesa());
 
         data.save(existingReservation);

@@ -67,21 +67,34 @@
     <section id="reservas">
         <h2>Reservaciones</h2>
         <form id="reserva-form">
+            <!-- Campo para el nombre -->
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" maxlength="35">
-            
+            <input type="text" id="nombre" name="nombre" maxlength="35" placeholder="Ingrese su nombre" required>
+    
+            <!-- Campo para la fecha -->
             <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" required>
-            
+            <input type="date" id="fecha" name="fecha" required>
+    
+            <!-- Campo para la hora -->
             <label for="hora">Hora:</label>
-            <input type="time" id="hora" required>
-            
+            <input type="time" id="hora" name="hora" required>
+    
+            <!-- Campo para el número de personas -->
             <label for="personas">Número de personas:</label>
-            <input type="number" id="personas" min="1" max="20" required>
-
+            <input type="number" id="personas" name="numeroPersonas" min="1" max="20" placeholder="Ejemplo: 4" required>
+    
+            <!-- Campo para el número de celular -->
             <label for="celular">Número de celular:</label>
-            <input type="number" id="celular" name="numero" maxlength="10" required>
+            <input type="tel" id="celular" name="numeroCelular" pattern="[0-9]{10}" placeholder="10 dígitos" required>
             
+            <!-- Campo para seleccionar la mesa -->
+            <label for="mesa">Seleccione la mesa:</label>
+            <select id="mesa" name="mesa" required>
+                <option value="" disabled selected>Seleccione una mesa</option>
+                <!-- Aquí puedes cargar las mesas disponibles dinámicamente -->
+            </select>
+    
+            <!-- Botón para enviar la reserva -->
             <button type="submit">Reservar Mesa</button>
         </form>
     </section>

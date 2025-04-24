@@ -37,10 +37,6 @@ public class Reservation {
     private boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "id_mesa", nullable = false)
     private Mesa mesa;
 
@@ -49,14 +45,14 @@ public class Reservation {
     }
 
     // Constructor con parámetros
-    public Reservation(int idReservation, String name, LocalDateTime fecha, LocalDateTime hora, int numeroPersonas, int numeroCelular, User user, Mesa mesa, boolean status) {
+    public Reservation(int idReservation, String name, LocalDateTime fecha, LocalDateTime hora, int numeroPersonas, int numeroCelular, Mesa mesa, boolean status) {
         this.idReservation = idReservation;
         this.name = name;
         this.fecha = fecha;
         this.hora = hora;
         this.numeroPersonas = numeroPersonas;
         this.numeroCelular = numeroCelular;
-        this.user = user;
+
         this.mesa = mesa;
         this.status = status;
     }
@@ -108,14 +104,6 @@ public class Reservation {
 
     public void setNumeroCelular(int numeroCelular) {
         this.numeroCelular = numeroCelular;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Mesa getMesa() {
