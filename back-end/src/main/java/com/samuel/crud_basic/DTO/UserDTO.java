@@ -2,32 +2,28 @@ package com.samuel.crud_basic.DTO;
 
 public class UserDTO {
 
-    private String nombre;
-
+    private String name;
     private String email;
+    private String password;
 
-    private String contrasena;
+    // Constructor vacío
+    public UserDTO() {
+    }
 
-    private String telefono;
-
-    private String direccion;
-
-    public UserDTO() {} 
-
-    public UserDTO(String nombre, String email, String contrasena, String telefono, String direccion) {
-        this.nombre = nombre;
+    // Constructor con parámetros
+    public UserDTO(String name, String email, String password) {
+        this.name = name;
         this.email = email;
-        this.contrasena = contrasena;
-        this.telefono = telefono;
-        this.direccion = direccion;
+        this.password = password;
     }
 
-    public String getNombre() {
-        return nombre;
+    // Getters y setters
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -38,27 +34,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public void setDireccion(String direccion){
-        this.direccion = direccion;
-    }
-    public String getDireccion() {
-        return direccion;
-    }
-
 }

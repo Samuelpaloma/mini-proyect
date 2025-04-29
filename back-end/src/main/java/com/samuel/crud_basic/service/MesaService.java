@@ -20,24 +20,11 @@ public class MesaService {
     private Imesa data;
 
     /**
-     * Obtener todas las mesas
-     * @return Lista de MesaDTO
+     * Obtener mesas disponibles (ocupada = false)
+     * @return Lista de mesas desocupadas
      */
-    public List<MesaDTO> findAll() {
-        return data.findAll()
-                   .stream()
-                   .map(this::convertToDTO)
-                   .collect(Collectors.toList());
-    }
-
-    /**
-     * Buscar una mesa por su ID
-     * @param idMesa ID de la mesa
-     * @return Optional de MesaDTO
-     */
-    public Optional<MesaDTO> findById(int idMesa) {
-        return data.findById(idMesa)
-                   .map(this::convertToDTO);
+    public List<Mesa> getMesasDisponibles() {
+        return data.findByOcupadaFalse(); // Llama al método del repositorio
     }
 
     /**
@@ -46,7 +33,6 @@ public class MesaService {
      * @return responseDTO con el resultado de la operación
      */
     public responseDTO save(MesaDTO mesaDTO) {
-        // Validar los datos básicos
         if (mesaDTO.getCapacidad() <= 0) {
             return new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
@@ -67,6 +53,16 @@ public class MesaService {
             HttpStatus.OK.toString(),
             "Mesa guardada correctamente"
         );
+    }
+
+    /**
+     * Buscar una mesa por su ID
+     * @param idMesa ID de la mesa
+     * @return Optional de MesaDTO
+     */
+    public Optional<MesaDTO> findById(int idMesa) {
+        return data.findById(idMesa)
+                   .map(this::convertToDTO);
     }
 
     /**
@@ -98,39 +94,28 @@ public class MesaService {
     }
 
     /**
-     * Eliminar una mesa (lógica de cambio de estado)
-     * @param idMesa ID de la mesa a eliminar
-     * @return responseDTO con el resultado de la operación
-     */
-    public responseDTO delete(int idMesa) {
-        Optional<Mesa> optionalMesa = data.findById(idMesa);
-        if (!optionalMesa.isPresent()) {
-            return new responseDTO(
-                HttpStatus.NOT_FOUND.toString(),
-                "La mesa con ID " + idMesa + " no existe"
-            );
-        }
-
-        Mesa mesa = optionalMesa.get();
-        mesa.setOcupada(true); // Cambiar el estado a ocupada (borrado lógico)
-        data.save(mesa);
-
-        return new responseDTO(
-            HttpStatus.OK.toString(),
-            "Mesa eliminada correctamente"
-        );
-    }
-
-    /**
      * Obtener mesas disponibles (ocupada = false)
      * @return Lista de MesaDTO
      */
     public List<MesaDTO> findAvailable() {
-        return data.findByOcupadaFalse()
+        return data.findByOcupadaFalse() // Método del repositorio
                    .stream()
-                   .map(this::convertToDTO)
+                   .map(this::convertToDTO) // Convertir a DTO
                    .collect(Collectors.toList());
     }
+
+    /**
+ * Liberar una mesa (cambiar ocupada a false)
+ * @param id ID de la mesa a liberar
+ * @return true si la mesa fue liberada, false si no se encontró
+ */
+public boolean liberarMesa(int id) {
+    return data.findById(id).map(mesa -> {
+        mesa.setOcupada(false); // Cambiar el estado a desocupada
+        data.save(mesa); // Guardar los cambios
+        return true;
+    }).orElse(false); // Retornar false si la mesa no fue encontrada
+}
 
     /**
      * Convertir una entidad Mesa a DTO

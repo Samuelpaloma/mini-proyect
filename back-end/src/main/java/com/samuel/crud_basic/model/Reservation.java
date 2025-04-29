@@ -24,16 +24,13 @@ public class Reservation {
     @Column(name = "fecha", nullable = false)
     private LocalDateTime fecha;
 
-    @Column(name = "hora", nullable = false)
-    private LocalDateTime hora;
-
     @Column(name = "numero_personas", nullable = false)
     private int numeroPersonas;
 
     @Column(name = "numero_celular", nullable = false)
     private int numeroCelular;
 
-    @Column(name="status",nullable=false, columnDefinition = "boolean default true")
+    @Column(name="status",nullable=false)
     private boolean status;
 
     @ManyToOne
@@ -45,14 +42,12 @@ public class Reservation {
     }
 
     // Constructor con parámetros
-    public Reservation(int idReservation, String name, LocalDateTime fecha, LocalDateTime hora, int numeroPersonas, int numeroCelular, Mesa mesa, boolean status) {
+    public Reservation(int idReservation, String name, LocalDateTime fecha, int numeroPersonas, int numeroCelular, Mesa mesa, boolean status) {
         this.idReservation = idReservation;
         this.name = name;
         this.fecha = fecha;
-        this.hora = hora;
         this.numeroPersonas = numeroPersonas;
         this.numeroCelular = numeroCelular;
-
         this.mesa = mesa;
         this.status = status;
     }
@@ -80,14 +75,6 @@ public class Reservation {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    }
-
-    public LocalDateTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalDateTime hora) {
-        this.hora = hora;
     }
 
     public int getNumeroPersonas() {

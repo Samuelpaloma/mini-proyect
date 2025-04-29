@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #4a2c2a;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4a2c2a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6d4036;
+        }
+
+        .employee-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .employee-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .employee-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+
+        .employee-item button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .employee-item button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Empleados</h1>
+    </header>
+
+    <main>
+        <!-- Formulario para agregar empleados -->
+        <div class="form-container">
+            <h2>Agregar Empleado</h2>
+            <form id="add-employee-form">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="cargo">Cargo</label>
+                    <input type="text" id="cargo" name="cargo" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" required>
+                </div>
+                <button type="submit">Agregar Empleado</button>
+            </form>
+        </div>
+
+        <!-- Lista de empleados -->
+        <div class="employee-list">
+            <h2>Lista de Empleados</h2>
+            <div id="employee-container">
+                <!-- Los empleados se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/v1/employee";
+
+        // Función para cargar los empleados
+        async function loadEmployees() {
+            const container = document.getElementById("employee-container");
+            container.innerHTML = ""; // Limpiar el contenedor
+
+            try {
+                const response = await fetch(apiUrl + "/");
+                const employees = await response.json();
+
+                employees.forEach(employee => {
+                    const div = document.createElement("div");
+                    div.classList.add("employee-item");
+                    div.innerHTML = `
+                        <span>${employee.name} - ${employee.cargo} - ${employee.telefono}</span>
+                        <div>
+                            <button onclick="editEmployee(${employee.id_employee}, '${employee.name}', '${employee.cargo}', '${employee.telefono}')">Editar</button>
+                            <button onclick="deleteEmployee(${employee.id_employee})">Eliminar</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error("Error al cargar los empleados:", error);
+                alert("Hubo un problema al cargar los empleados.");
+            }
+        }
+
+        // Función para agregar un empleado
+        document.getElementById("add-employee-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const cargo = document.getElementById("cargo").value;
+            const telefono = document.getElementById("telefono").value;
+
+            const employee = { name, cargo, telefono };
+
+            try {
+                const response = await fetch(apiUrl + "/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(employee)
+                });
+
+                if (response.ok) {
+                    alert("Empleado agregado correctamente");
+                    document.getElementById("add-employee-form").reset();
+                    loadEmployees(); // Recargar la lista
+                } else {
+                    alert("Error al agregar el empleado.");
+                }
+            } catch (error) {
+                console.error("Error al agregar el empleado:", error);
+                alert("Hubo un problema al agregar el empleado.");
+            }
+        });
+
+        // Función para eliminar un empleado
+        async function deleteEmployee(id) {
+            if (!confirm("¿Estás seguro de que deseas eliminar este empleado?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(apiUrl + `/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    alert("Empleado eliminado correctamente");
+                    loadEmployees(); // Recargar la lista
+                } else {
+                    alert("Error al eliminar el empleado.");
+                }
+            } catch (error) {
+                console.error("Error al eliminar el empleado:", error);
+                alert("Hubo un problema al eliminar el empleado.");
+            }
+        }
+
+        // Función para editar un empleado
+        async function editEmployee(id, name, cargo, telefono) {
+            const newName = prompt("Editar nombre:", name);
+            const newCargo = prompt("Editar cargo:", cargo);
+            const newTelefono = prompt("Editar teléfono:", telefono);
+
+            if (newName && newCargo && newTelefono) {
+                const employee = { name: newName, cargo: newCargo, telefono: newTelefono };
+
+                try {
+                    const response = await fetch(apiUrl + `/${id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(employee)
+                    });
+
+                    if (response.ok) {
+                        alert("Empleado actualizado correctamente");
+                        loadEmployees(); // Recargar la lista
+                    } else {
+                        alert("Error al actualizar el empleado.");
+                    }
+                } catch (error) {
+                    console.error("Error al actualizar el empleado:", error);
+                    alert("Hubo un problema al actualizar el empleado.");
+                }
+            }
+        }
+
+        // Cargar los empleados al cargar la página
+        loadEmployees();
+    </script>
+</body>
+</html>

@@ -1,89 +1,147 @@
 let reservasGlobal = [];
 
-function agregarReserva() {
-  // Obtener referencias a los elementos con los IDs que tienes en tu HTML
-  const nombreInput = document.getElementById('nombre');
-  const fechaInput = document.getElementById('fecha');
-  const horaInput = document.getElementById('hora');
-  const personasInput = document.getElementById('personas');
-  const celularInput = document.getElementById('celular');
-  const userInput = document.getElementById('user'); // ID del usuario
-  const mesaInput = document.getElementById('mesa'); // ID de la mesa
-  
-  // Verificar que todos los elementos existen
-  if (!nombreInput || !fechaInput || !horaInput || !personasInput || !celularInput || !userInput || !mesaInput) {
-    console.error("No se encontraron todos los campos del formulario de reserva");
-    alert("Error: No se encontraron todos los campos del formulario");
-    return;
-  }
-  
-  // Obtener los valores y validarlos
-  const nombre = nombreInput.value.trim();
-  const fecha = fechaInput.value; // Fecha en formato YYYY-MM-DD
-  const hora = horaInput.value; // Hora en formato HH:mm
-  const personas = parseInt(personasInput.value, 10); // Asegurar que sea un número entero
-  const celular = parseInt(celularInput.value, 10); // Asegurar que sea un número entero
-  const userId = parseInt(userInput.value, 10); // ID del usuario (debe ser un número)
-  const mesaId = parseInt(mesaInput.value, 10); // ID de la mesa (debe ser un número)
+// Función para cargar las mesas disponibles
+async function cargarMesasDisponibles() {
+    const mesaSelect = document.getElementById("mesa");
 
-  if (!nombre || !fecha || !hora || isNaN(personas) || isNaN(celular) || isNaN(userId) || isNaN(mesaId)) {
-    alert("Por favor completa todos los campos obligatorios.");
-    return;
-  }
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/mesa/disponibles");
+        if (!response.ok) {
+            throw new Error("Error al cargar las mesas disponibles.");
+        }
 
-  // Combinar fecha y hora en un formato LocalDateTime compatible con Java (ISO 8601)
-  const fechaHora = `${fecha}T${hora}`;
+        const mesas = await response.json();
+        console.log("Mesas disponibles:", mesas);
 
-  // Crear objeto de reserva ajustado al DTO del backend
-  const reserva = { 
-    name: nombre,
-    fecha: fechaHora, // LocalDateTime en formato ISO 8601
-    hora: fechaHora, // Usamos la misma fecha y hora en este caso
-    numeroPersonas: personas,
-    numeroCelular: celular,
-    user: { id: userId }, // Objeto User con ID
-    mesa: { id: mesaId }, // Objeto Mesa con ID
-  };
+        mesaSelect.innerHTML = '<option value="" disabled selected>Seleccione una mesa</option>';
 
-  // Realizar la solicitud fetch
-  fetch('http://localhost:8080/api/v1/reservation/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(reserva)
-  })
-  .then(response => {
-    // Manejar errores HTTP
-    if (!response.ok) {
-      console.error('Error HTTP:', response.status, response.statusText);
-      throw new Error('No se pudo realizar la reserva. Código de estado: ' + response.status);
+        if (mesas.length === 0) {
+            const option = document.createElement("option");
+            option.value = "";
+            option.disabled = true;
+            option.textContent = "No hay mesas disponibles";
+            mesaSelect.appendChild(option);
+            return;
+        }
+
+        mesas.forEach((mesa) => {
+            const option = document.createElement("option");
+            option.value = mesa.idMesa;
+            option.textContent = `Mesa ${mesa.idMesa} - Capacidad: ${mesa.capacidad}`;
+            mesaSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error al cargar las mesas disponibles:", error);
+        alert("No se pudieron cargar las mesas disponibles.");
     }
-    return response.json();
-  })
-  .then(data => {
-    if (data.success) { // Ajusta la validación según el formato de respuesta de tu backend
-      alert(data.message || '¡Reserva realizada con éxito! Te contactaremos para confirmar.');
-      document.getElementById('reserva-form').reset();
-    } else {
-      // Manejar errores específicos del backend
-      console.error('Error en el servidor:', data);
-      alert(data.message || 'Error al realizar la reserva. Por favor intenta nuevamente.');
-    }
-  })
-  .catch(error => {
-    console.error('Error al hacer la reserva:', error);
-    alert('Error al realizar la reserva. Por favor intenta nuevamente.');
-  });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Manejar el formulario de reservas para clientes
-  const reservaForm = document.getElementById('reserva-form');
-  if (reservaForm) {
-    reservaForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      agregarReserva();
-    });
-  }
+// Función para registrar una nueva reserva
+async function registrarReserva() {
+    const nombre = document.getElementById("nombre").value.trim();
+    const fecha = document.getElementById("fecha").value; // Ahora incluye fecha y hora
+    const numeroPersonas = parseInt(document.getElementById("personas").value, 10);
+    const numeroCelular = document.getElementById("celular").value.trim();
+    const mesaId = parseInt(document.getElementById("mesa").value, 10);
+
+    if (!nombre || !fecha || isNaN(numeroPersonas) || !numeroCelular || isNaN(mesaId)) {
+        alert("Por favor, completa todos los campos correctamente.");
+        return;
+    }
+
+    const reserva = {
+        name: nombre,
+        fecha: fecha, // Enviar fecha y hora en formato ISO 8601
+        numeroPersonas: numeroPersonas,
+        numeroCelular: numeroCelular,
+        mesa: { idMesa: mesaId }
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/reservation/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reserva)
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al registrar la reserva.");
+        }
+
+        const data = await response.json();
+        alert(data.message || "¡Reserva realizada con éxito!");
+        document.getElementById("reserva-form").reset();
+        cargarMesasDisponibles(); // Actualizar las mesas disponibles
+        obtenerReservas(); // Actualizar la lista de reservas
+    } catch (error) {
+        console.error("Error al registrar la reserva:", error);
+        alert("Hubo un problema al realizar la reserva.");
+    }
+}
+
+// Función para obtener todas las reservas
+async function obtenerReservas() {
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/reservation/");
+        if (!response.ok) {
+            throw new Error("Error al obtener las reservas.");
+        }
+
+        const reservas = await response.json();
+        reservasGlobal = Array.isArray(reservas) ? reservas : [];
+        renderReservas(reservasGlobal);
+    } catch (error) {
+        console.error("Error al obtener las reservas:", error);
+        reservasGlobal = [];
+        renderReservas([]);
+    }
+}
+
+// Función para renderizar las reservas en la página
+function renderReservas(lista) {
+    const contenedor = document.querySelector(".reservas-container");
+    if (!contenedor) {
+        console.error("No se encontró el contenedor '.reservas-container'");
+        return;
+    }
+
+    contenedor.innerHTML = "";
+
+    if (!Array.isArray(lista) || lista.length === 0) {
+        const mensajeNoResultados = document.createElement("div");
+        mensajeNoResultados.classList.add("sin-resultados");
+        mensajeNoResultados.innerHTML = "<h3>No hay reservas registradas.</h3>";
+        contenedor.appendChild(mensajeNoResultados);
+    } else {
+        lista.forEach((reserva) => {
+            const divReserva = document.createElement("div");
+            divReserva.classList.add("reserva");
+
+            divReserva.innerHTML = `
+                <h3>${reserva.name}</h3>
+                <p>Fecha y hora: ${reserva.fecha}</p>
+                <p>Número de personas: ${reserva.numeroPersonas}</p>
+                <p>Celular: ${reserva.numeroCelular}</p>
+                <p>Mesa: ${reserva.mesa.idMesa}</p>
+            `;
+
+            contenedor.appendChild(divReserva);
+        });
+    }
+}
+
+// Inicializar eventos y cargar datos al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    cargarMesasDisponibles();
+    obtenerReservas();
+
+    const reservaForm = document.getElementById("reserva-form");
+    if (reservaForm) {
+        reservaForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            registrarReserva();
+        });
+    }
 });

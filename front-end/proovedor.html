@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proveedores</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #4a2c2a;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4a2c2a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #6d4036;
+        }
+
+        .proovedores-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .proovedores-list h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .proovedor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .proovedor-item:last-child {
+            border-bottom: none;
+        }
+
+        .proovedor-item button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .proovedor-item button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Proveedores</h1>
+    </header>
+
+    <main>
+        <!-- Formulario para agregar proveedores -->
+        <div class="form-container">
+            <h2>Agregar Proveedor</h2>
+            <form id="add-proovedor-form">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+                <button type="submit">Agregar Proveedor</button>
+            </form>
+        </div>
+
+        <!-- Lista de proveedores -->
+        <div class="proovedores-list">
+            <h2>Lista de Proveedores</h2>
+            <div id="proovedores-container">
+                <!-- Los proveedores se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/v1/proovedor";
+
+        // Función para cargar los proveedores
+        async function loadProovedores() {
+            const container = document.getElementById("proovedores-container");
+            container.innerHTML = ""; // Limpiar el contenedor
+
+            try {
+                const response = await fetch(apiUrl + "/");
+                const proovedores = await response.json();
+
+                proovedores.forEach(proovedor => {
+                    const div = document.createElement("div");
+                    div.classList.add("proovedor-item");
+                    div.innerHTML = `
+                        <span>${proovedor.name} - ${proovedor.telefono} - ${proovedor.direccion}</span>
+                        <button onclick="deleteProovedor(${proovedor.id_proovedor})">Eliminar</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (error) {
+                console.error("Error al cargar los proveedores:", error);
+                alert("Hubo un problema al cargar los proveedores.");
+            }
+        }
+
+        // Función para agregar un proveedor
+        document.getElementById("add-proovedor-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const telefono = document.getElementById("telefono").value;
+            const direccion = document.getElementById("direccion").value;
+
+            const proovedor = { name, telefono, direccion };
+
+            try {
+                const response = await fetch(apiUrl + "/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(proovedor)
+                });
+
+                if (response.ok) {
+                    alert("Proveedor agregado correctamente");
+                    document.getElementById("add-proovedor-form").reset();
+                    loadProovedores(); // Recargar la lista
+                } else {
+                    alert("Error al agregar el proveedor.");
+                }
+            } catch (error) {
+                console.error("Error al agregar el proveedor:", error);
+                alert("Hubo un problema al agregar el proveedor.");
+            }
+        });
+
+        // Función para eliminar un proveedor
+        async function deleteProovedor(id) {
+            if (!confirm("¿Estás seguro de que deseas eliminar este proveedor?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(apiUrl + `/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    alert("Proveedor eliminado correctamente");
+                    loadProovedores(); // Recargar la lista
+                } else {
+                    alert("Error al eliminar el proveedor.");
+                }
+            } catch (error) {
+                console.error("Error al eliminar el proveedor:", error);
+                alert("Hubo un problema al eliminar el proveedor.");
+            }
+        }
+
+        // Cargar los proveedores al cargar la página
+        loadProovedores();
+    </script>
+</body>
+</html>

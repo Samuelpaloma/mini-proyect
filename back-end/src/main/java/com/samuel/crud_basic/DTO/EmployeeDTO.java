@@ -1,23 +1,23 @@
 package com.samuel.crud_basic.DTO;
 
 public class EmployeeDTO {
+
     private String name;
-
     private String cargo;
-    
-    private String salario;
-
     private String telefono;
 
-    public EmployeeDTO(){}
+    // Constructor vacío
+    public EmployeeDTO() {
+    }
 
-    public EmployeeDTO(String name, String cargo, String salario, String telefono) {
+    // Constructor con parámetros
+    public EmployeeDTO(String name, String cargo, String telefono) {
         this.name = name;
         this.cargo = cargo;
-        this.salario = salario;
         this.telefono = telefono;
     }
 
+    // Getters y setters
     public String getName() {
         return name;
     }
@@ -34,14 +34,6 @@ public class EmployeeDTO {
         this.cargo = cargo;
     }
 
-    public String getSalario() {
-        return salario;
-    }
-
-    public void setSalario(String salario) {
-        this.salario = salario;
-    }
-
     public String getTelefono() {
         return telefono;
     }
@@ -49,8 +41,4 @@ public class EmployeeDTO {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-    
-
-    
 }

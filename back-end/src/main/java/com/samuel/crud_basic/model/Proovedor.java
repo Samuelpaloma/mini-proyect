@@ -25,6 +25,9 @@ public class Proovedor {
    @Column(name = "direccion", length = 150, nullable = false)
    private String direccion;
 
+   public Proovedor() {
+}
+
     public Proovedor(int id_proovedor,String name, String telefono, String direccion) {
         this.id_proovedor = id_proovedor;
         this.name = name;

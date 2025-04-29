@@ -1,6 +1,5 @@
 package com.samuel.crud_basic.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,113 +9,57 @@ import org.springframework.stereotype.Service;
 import com.samuel.crud_basic.DTO.UserDTO;
 import com.samuel.crud_basic.DTO.responseDTO;
 import com.samuel.crud_basic.model.User;
-import com.samuel.crud_basic.repository.Iuser;
-
-
+import com.samuel.crud_basic.repository.IUserRepository;
 
 @Service
 public class UserService {
 
-    /*
-     * save
-     * findAll
-     * findById
-     * Delete
-     */
-    /* establish connection with the interface */
     @Autowired
-    private Iuser data;
+    private IUserRepository userRepository;
 
-    public List<User> findAll(){
-        return data.getListUserActive();
-    }
-
-    public List<User> getListUserForName(String filter) {
-        return data.getListUserForName(filter);
-    }
-
-    public Optional<User> findById(int id){
-        return data.findById(id);
-    }
-
-    public responseDTO deleteUser(int id) {
-        Optional<User> user=findById(id);
-        if(!user.isPresent()) {
-            responseDTO respuesta = new responseDTO(
-                HttpStatus.OK.toString(),
-                "The register does not exist");
-            return respuesta;    
-        }
-        user.get().setStatus(false);
-        data.save(user.get());
-
-        responseDTO respuesta = new responseDTO(
-            HttpStatus.OK.toString(),
-             "Se eliminó correctamente");
-        return respuesta;     
-    }
-
-    // register and update
-    public responseDTO save(UserDTO userDTO) {
-        if(userDTO.getNombre().length() < 1 ||
-        userDTO.getNombre().length() > 50) {
-            responseDTO respuesta = new responseDTO(
+    public responseDTO registerUser(UserDTO userDTO) {
+        // Verificar si el email ya está registrado
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            return new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
-                "El nombre debe estar entre 1 y 50 caracteres");
-            return respuesta;    
+                "El correo electrónico ya está registrado"
+            );
         }
-        User userRegister = convertToModel(userDTO);
-        data.save(userRegister);
-        responseDTO respuesta = new responseDTO(
+
+        // Crear y guardar el usuario
+        User user = new User(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword());
+        userRepository.save(user);
+
+        return new responseDTO(
             HttpStatus.OK.toString(),
-            "Se gurado correctamente");
-        return respuesta;    
+            "Usuario registrado correctamente"
+        );
     }
 
-    public UserDTO convertToDTO(User user) {
-        UserDTO userdto = new UserDTO(
-                user.getNombre(),
-                user.getEmail(),
-                user.getContrasena(),
-                user.getTelefono(),
-                user.getDireccion());
-        return userdto;
-    }
+    public responseDTO loginUser(String email, String password) {
+        // Buscar el usuario por correo electrónico
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
-    public User convertToModel(UserDTO userDTO) {
-        User user = new User(
-            0,
-                userDTO.getNombre(),
-                userDTO.getEmail(),
-                userDTO.getContrasena(),
-                userDTO.getTelefono(),
-                userDTO.getDireccion(),
-                true);
-        return user;
-    }
-
-    public responseDTO updateExplorer(int id, UserDTO dto) {
-        Optional<User> userOpt = data.findById(id);
-        if (!userOpt.isPresent()) {
-            responseDTO respuesta = new responseDTO(
-                    HttpStatus.NOT_FOUND.toString(),
-                    "El cliente con ID " + id + " no existe");
-            return respuesta;
+        if (!userOptional.isPresent()) {
+            return new responseDTO(
+                HttpStatus.UNAUTHORIZED.toString(),
+                "Correo electrónico o contraseña incorrectos"
+            );
         }
-        User existingUser = userOpt.get();
-        existingUser.setNombre(dto.getNombre());
-        existingUser.setEmail(dto.getEmail());
-        existingUser.setContrasena(dto.getContrasena());
-        existingUser.setTelefono(dto.getTelefono());
-        existingUser.setDireccion(dto.getDireccion());
 
-        data.save(existingUser);
+        User user = userOptional.get();
 
-        responseDTO respuesta = new responseDTO(
-                HttpStatus.OK.toString(),
-                "usuario actualizado correctamente");
-        return respuesta;
+        // Validar la contraseña
+        if (!user.getPassword().equals(password)) {
+            return new responseDTO(
+                HttpStatus.UNAUTHORIZED.toString(),
+                "Correo electrónico o contraseña incorrectos"
+            );
+        }
+
+        return new responseDTO(
+            HttpStatus.OK.toString(),
+            "Inicio de sesión exitoso"
+        );
     }
-
 }
-

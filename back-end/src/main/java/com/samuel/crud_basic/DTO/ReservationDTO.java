@@ -2,31 +2,28 @@ package com.samuel.crud_basic.DTO;
 
 import java.time.LocalDateTime;
 
-import com.samuel.crud_basic.model.Mesa;
-
 public class ReservationDTO {
-    
+
     private String name;
     private LocalDateTime fecha;
-    private LocalDateTime hora;
     private int numeroPersonas;
     private int numeroCelular;
-    private Mesa mesa;
+    private MesaDTO mesa;
 
     // Constructor vacío
     public ReservationDTO() {
     }
 
     // Constructor con parámetros
-    public ReservationDTO(String name, LocalDateTime fecha, LocalDateTime hora, int numeroPersonas, int numeroCelular, Mesa mesa) {
+    public ReservationDTO(String name, LocalDateTime fecha, int numeroPersonas, int numeroCelular, MesaDTO mesa) {
         this.name = name;
         this.fecha = fecha;
-        this.hora = hora;
         this.numeroPersonas = numeroPersonas;
         this.numeroCelular = numeroCelular;
+        this.mesa = mesa;
     }
 
-    // Getters y Setters
+    // Getters y setters
     public String getName() {
         return name;
     }
@@ -41,14 +38,6 @@ public class ReservationDTO {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-    }
-
-    public LocalDateTime getHora() {
-        return hora;
-    }
-
-    public void setHora(LocalDateTime hora) {
-        this.hora = hora;
     }
 
     public int getNumeroPersonas() {
@@ -67,11 +56,11 @@ public class ReservationDTO {
         this.numeroCelular = numeroCelular;
     }
 
-    public Mesa getMesa() {
+    public MesaDTO getMesa() {
         return mesa;
     }
 
-    public void setMesa(Mesa mesa) {
+    public void setMesa(MesaDTO mesa) {
         this.mesa = mesa;
     }
 }
