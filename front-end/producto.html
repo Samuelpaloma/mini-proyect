@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión de Productos</h1>
+    </header>
+    <main>
+        <!-- Formulario para agregar productos -->
+        <div>
+            <h2>Agregar Producto</h2>
+            <form id="add-product-form">
+                <input type="text" id="nombre" placeholder="Nombre" required>
+                <input type="text" id="precio" placeholder="Precio" required>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
+
+        <!-- Lista de productos -->
+        <div>
+            <h2>Lista de Productos</h2>
+            <div id="product-list"></div>
+        </div>
+    </main>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/v1/producto";
+
+        // Cargar productos
+        async function loadProducts() {
+            const response = await fetch(apiUrl + "/");
+            const products = await response.json();
+            const list = document.getElementById("product-list");
+            list.innerHTML = products.map(prod => `
+                <div>
+                    ${prod.nombre} - ${prod.precio}
+                    <button onclick="editProduct(${prod.id_product}, '${prod.nombre}', '${prod.precio}')">Editar</button>
+                    <button onclick="deleteProduct(${prod.id_product})">Eliminar</button>
+                </div>
+            `).join("");
+        }
+
+        // Agregar producto
+        document.getElementById("add-product-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById("nombre").value;
+            const precio = document.getElementById("precio").value;
+
+            await fetch(apiUrl + "/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ nombre, precio })
+            });
+            loadProducts();
+        });
+
+        // Eliminar producto
+        async function deleteProduct(id) {
+            await fetch(apiUrl + `/${id}`, { method: "DELETE" });
+            loadProducts();
+        }
+
+        // Editar producto
+        async function editProduct(id, nombre, precio) {
+            const newNombre = prompt("Editar nombre:", nombre);
+            const newPrecio = prompt("Editar precio:", precio);
+
+            if (newNombre && newPrecio) {
+                await fetch(apiUrl + `/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ nombre: newNombre, precio: newPrecio })
+                });
+                loadProducts();
+            }
+        }
+
+        loadProducts();
+    </script>
+</body>
+</html>
