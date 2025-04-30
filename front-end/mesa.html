@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Mesas</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <header>
+        <h1>Gestión de Mesas</h1>
+    </header>
+    <main>
+        <!-- Formulario para agregar mesas -->
+        <div>
+            <h2>Agregar Mesa</h2>
+            <form id="add-mesa-form">
+                <input type="number" id="capacidad" placeholder="Capacidad" required>
+                <input type="text" id="ubicacion" placeholder="Ubicación" required>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
+
+        <!-- Lista de mesas -->
+        <div>
+            <h2>Lista de Mesas</h2>
+            <div id="mesa-list"></div>
+        </div>
+    </main>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/v1/mesa";
+
+        // Cargar mesas
+        async function loadMesas() {
+            const response = await fetch(apiUrl + "/");
+            const mesas = await response.json();
+            const list = document.getElementById("mesa-list");
+            list.innerHTML = mesas.map(mesa => `
+                <div>
+                    Mesa ${mesa.idMesa} - Capacidad: ${mesa.capacidad} - Ubicación: ${mesa.ubicacion} - Ocupada: ${mesa.ocupada}
+                    <button onclick="editMesa(${mesa.idMesa}, ${mesa.capacidad}, '${mesa.ubicacion}', ${mesa.ocupada})">Editar</button>
+                    <button onclick="deleteMesa(${mesa.idMesa})">Eliminar</button>
+                </div>
+            `).join("");
+        }
+
+        // Agregar mesa
+        document.getElementById("add-mesa-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const capacidad = document.getElementById("capacidad").value;
+            const ubicacion = document.getElementById("ubicacion").value;
+
+            await fetch(apiUrl + "/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ capacidad, ubicacion, ocupada: false })
+            });
+            loadMesas();
+        });
+
+        // Eliminar mesa
+        async function deleteMesa(id) {
+            await fetch(apiUrl + `/${id}`, { method: "DELETE" });
+            loadMesas();
+        }
+
+        // Editar mesa
+        async function editMesa(id, capacidad, ubicacion, ocupada) {
+            const newCapacidad = prompt("Editar capacidad:", capacidad);
+            const newUbicacion = prompt("Editar ubicación:", ubicacion);
+
+            if (newCapacidad && newUbicacion) {
+                await fetch(apiUrl + `/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ capacidad: newCapacidad, ubicacion: newUbicacion, ocupada })
+                });
+                loadMesas();
+            }
+        }
+
+        loadMesas();
+    </script>
+</body>
+</html>

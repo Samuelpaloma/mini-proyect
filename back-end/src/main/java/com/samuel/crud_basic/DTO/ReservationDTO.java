@@ -8,19 +8,19 @@ public class ReservationDTO {
     private LocalDateTime fecha;
     private int numeroPersonas;
     private int numeroCelular;
-    private MesaDTO mesa;
+    private int idMesa; // ID de la mesa seleccionada
 
     // Constructor vacío
     public ReservationDTO() {
     }
 
     // Constructor con parámetros
-    public ReservationDTO(String name, LocalDateTime fecha, int numeroPersonas, int numeroCelular, MesaDTO mesa) {
+    public ReservationDTO(String name, LocalDateTime fecha, int numeroPersonas, int numeroCelular, int idMesa) {
         this.name = name;
         this.fecha = fecha;
         this.numeroPersonas = numeroPersonas;
         this.numeroCelular = numeroCelular;
-        this.mesa = mesa;
+        this.idMesa = idMesa;
     }
 
     // Getters y setters
@@ -56,11 +56,11 @@ public class ReservationDTO {
         this.numeroCelular = numeroCelular;
     }
 
-    public MesaDTO getMesa() {
-        return mesa;
+    public int getIdMesa() {
+        return idMesa;
     }
 
-    public void setMesa(MesaDTO mesa) {
-        this.mesa = mesa;
+    public void setIdMesa(int idMesa) {
+        this.idMesa = idMesa;
     }
 }

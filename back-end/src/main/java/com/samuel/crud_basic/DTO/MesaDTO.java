@@ -1,31 +1,23 @@
 package com.samuel.crud_basic.DTO;
 
 public class MesaDTO {
-    private int idMesa; // Identificador de la mesa
-    private int capacidad; // Capacidad de la mesa
-    private String ubicacion; // Ubicación de la mesa
-    private boolean ocupada; // Estado de la mesa (true = ocupada, false = disponible)
+
+    private int capacidad;
+    private String ubicacion;
+    private boolean ocupada;
 
     // Constructor vacío
-    public MesaDTO() {}
+    public MesaDTO() {
+    }
 
-    // Constructor con todos los parámetros
-    public MesaDTO(int idMesa, int capacidad, String ubicacion, boolean ocupada) {
-        this.idMesa = idMesa;
+    // Constructor con parámetros
+    public MesaDTO(int capacidad, String ubicacion, boolean ocupada) {
         this.capacidad = capacidad;
         this.ubicacion = ubicacion;
         this.ocupada = ocupada;
     }
 
-    // Getters y Setters
-    public int getIdMesa() {
-        return idMesa;
-    }
-
-    public void setIdMesa(int idMesa) {
-        this.idMesa = idMesa;
-    }
-
+    // Getters y setters
     public int getCapacidad() {
         return capacidad;
     }

@@ -2,7 +2,6 @@ package com.samuel.crud_basic.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,75 +16,53 @@ import com.samuel.crud_basic.repository.Imesa;
 public class MesaService {
 
     @Autowired
-    private Imesa data;
+    private Imesa mesaRepository;
 
-    /**
-     * Obtener mesas disponibles (ocupada = false)
-     * @return Lista de mesas desocupadas
-     */
-    public List<Mesa> getMesasDisponibles() {
-        return data.findByOcupadaFalse(); // Llama al método del repositorio
+    // Obtener todas las mesas
+    public List<Mesa> findAll() {
+        return mesaRepository.findAll();
     }
 
-    /**
-     * Guardar una nueva mesa
-     * @param mesaDTO DTO con los datos de la mesa
-     * @return responseDTO con el resultado de la operación
-     */
-    public responseDTO save(MesaDTO mesaDTO) {
-        if (mesaDTO.getCapacidad() <= 0) {
-            return new responseDTO(
-                HttpStatus.BAD_REQUEST.toString(),
-                "La capacidad de la mesa debe ser mayor a 0"
-            );
-        }
-        if (mesaDTO.getUbicacion() == null || mesaDTO.getUbicacion().isEmpty()) {
-            return new responseDTO(
-                HttpStatus.BAD_REQUEST.toString(),
-                "La ubicación de la mesa no puede estar vacía"
-            );
-        }
+    // Obtener mesas disponibles
+    public List<Mesa> findAvailableMesas() {
+        return mesaRepository.findByOcupada(false); // Solo mesas no ocupadas
+    }
 
-        Mesa mesa = convertToModel(mesaDTO);
-        data.save(mesa);
+    // Agregar una nueva mesa
+    public responseDTO addMesa(MesaDTO mesaDTO) {
+        Mesa mesa = new Mesa(
+            0, // ID autogenerado
+            mesaDTO.getCapacidad(),
+            mesaDTO.getUbicacion(),
+            mesaDTO.isOcupada(),
+            null // No hay reservas asociadas inicialmente
+        );
+
+        mesaRepository.save(mesa);
 
         return new responseDTO(
             HttpStatus.OK.toString(),
-            "Mesa guardada correctamente"
+            "Mesa agregada correctamente"
         );
     }
 
-    /**
-     * Buscar una mesa por su ID
-     * @param idMesa ID de la mesa
-     * @return Optional de MesaDTO
-     */
-    public Optional<MesaDTO> findById(int idMesa) {
-        return data.findById(idMesa)
-                   .map(this::convertToDTO);
-    }
+    // Actualizar una mesa existente
+    public responseDTO updateMesa(int id, MesaDTO mesaDTO) {
+        Optional<Mesa> mesaOptional = mesaRepository.findById(id);
 
-    /**
-     * Actualizar una mesa existente
-     * @param idMesa ID de la mesa a actualizar
-     * @param mesaDTO DTO con los datos actualizados
-     * @return responseDTO con el resultado de la operación
-     */
-    public responseDTO update(int idMesa, MesaDTO mesaDTO) {
-        Optional<Mesa> optionalMesa = data.findById(idMesa);
-        if (!optionalMesa.isPresent()) {
+        if (!mesaOptional.isPresent()) {
             return new responseDTO(
                 HttpStatus.NOT_FOUND.toString(),
-                "La mesa con ID " + idMesa + " no existe"
+                "La mesa con ID " + id + " no existe"
             );
         }
 
-        Mesa existingMesa = optionalMesa.get();
-        existingMesa.setCapacidad(mesaDTO.getCapacidad());
-        existingMesa.setUbicacion(mesaDTO.getUbicacion());
-        existingMesa.setOcupada(mesaDTO.isOcupada());
+        Mesa mesa = mesaOptional.get();
+        mesa.setCapacidad(mesaDTO.getCapacidad());
+        mesa.setUbicacion(mesaDTO.getUbicacion());
+        mesa.setOcupada(mesaDTO.isOcupada());
 
-        data.save(existingMesa);
+        mesaRepository.save(mesa);
 
         return new responseDTO(
             HttpStatus.OK.toString(),
@@ -93,55 +70,22 @@ public class MesaService {
         );
     }
 
-    /**
-     * Obtener mesas disponibles (ocupada = false)
-     * @return Lista de MesaDTO
-     */
-    public List<MesaDTO> findAvailable() {
-        return data.findByOcupadaFalse() // Método del repositorio
-                   .stream()
-                   .map(this::convertToDTO) // Convertir a DTO
-                   .collect(Collectors.toList());
-    }
+    // Eliminar una mesa por ID
+    public responseDTO deleteMesa(int id) {
+        Optional<Mesa> mesaOptional = mesaRepository.findById(id);
 
-    /**
- * Liberar una mesa (cambiar ocupada a false)
- * @param id ID de la mesa a liberar
- * @return true si la mesa fue liberada, false si no se encontró
- */
-public boolean liberarMesa(int id) {
-    return data.findById(id).map(mesa -> {
-        mesa.setOcupada(false); // Cambiar el estado a desocupada
-        data.save(mesa); // Guardar los cambios
-        return true;
-    }).orElse(false); // Retornar false si la mesa no fue encontrada
-}
+        if (!mesaOptional.isPresent()) {
+            return new responseDTO(
+                HttpStatus.NOT_FOUND.toString(),
+                "La mesa con ID " + id + " no existe"
+            );
+        }
 
-    /**
-     * Convertir una entidad Mesa a DTO
-     * @param mesa Entidad Mesa
-     * @return MesaDTO
-     */
-    private MesaDTO convertToDTO(Mesa mesa) {
-        return new MesaDTO(
-            mesa.getIdMesa(),
-            mesa.getCapacidad(),
-            mesa.getUbicacion(),
-            mesa.isOcupada()
+        mesaRepository.deleteById(id);
+
+        return new responseDTO(
+            HttpStatus.OK.toString(),
+            "Mesa eliminada correctamente"
         );
-    }
-
-    /**
-     * Convertir un DTO a una entidad Mesa
-     * @param mesaDTO DTO de la mesa
-     * @return Entidad Mesa
-     */
-    private Mesa convertToModel(MesaDTO mesaDTO) {
-        Mesa mesa = new Mesa();
-        mesa.setIdMesa(mesaDTO.getIdMesa()); // ID autogenerado si es nuevo
-        mesa.setCapacidad(mesaDTO.getCapacidad());
-        mesa.setUbicacion(mesaDTO.getUbicacion());
-        mesa.setOcupada(mesaDTO.isOcupada());
-        return mesa;
     }
 }

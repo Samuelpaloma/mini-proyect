@@ -5,7 +5,7 @@ async function cargarMesasDisponibles() {
     const mesaSelect = document.getElementById("mesa");
 
     try {
-        const response = await fetch("http://localhost:8080/api/v1/mesa/disponibles");
+        const response = await fetch("http://localhost:8080/api/v1/reservation/available-mesas");
         if (!response.ok) {
             throw new Error("Error al cargar las mesas disponibles.");
         }
@@ -54,7 +54,7 @@ async function registrarReserva() {
         fecha: fecha, // Enviar fecha y hora en formato ISO 8601
         numeroPersonas: numeroPersonas,
         numeroCelular: numeroCelular,
-        mesa: { idMesa: mesaId }
+        idMesa: mesaId
     };
 
     try {

@@ -2,6 +2,8 @@ package com.samuel.crud_basic.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class Mesa {
     private boolean ocupada = false; // Estado de ocupación de la mesa
 
     @OneToMany(mappedBy = "mesa") 
+    @JsonBackReference
     private List<Reservation> reservas;
 
 

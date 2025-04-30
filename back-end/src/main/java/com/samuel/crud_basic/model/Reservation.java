@@ -2,6 +2,8 @@ package com.samuel.crud_basic.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "id_mesa", nullable = false)
+    @JsonManagedReference
     private Mesa mesa;
 
     // Constructor vacío (requerido por JPA)

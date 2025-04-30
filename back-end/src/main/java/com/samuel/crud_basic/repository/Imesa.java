@@ -8,6 +8,6 @@ import com.samuel.crud_basic.model.Mesa;
 
 public interface Imesa extends JpaRepository<Mesa, Integer> {
 
-    // Método para obtener todas las mesas disponibles (no ocupadas)
-    List<Mesa> findByOcupadaFalse();
+        // Método para encontrar mesas disponibles
+        List<Mesa> findByOcupada(boolean ocupada);
 }
