@@ -35,34 +35,51 @@ public class ReservationService {
 
     // Agregar una nueva reserva
     public responseDTO addReservation(ReservationDTO reservationDTO) {
+        // Verificar si la mesa existe y está disponible
         Optional<Mesa> mesaOptional = mesaRepository.findById(reservationDTO.getIdMesa());
 
-        if (!mesaOptional.isPresent() || mesaOptional.get().isOcupada()) {
+        if (!mesaOptional.isPresent()) {
+            return new responseDTO(
+                HttpStatus.BAD_REQUEST.toString(),
+                "La mesa seleccionada no existe"
+            );
+        }
+
+        Mesa mesa = mesaOptional.get();
+
+        if (mesa.isOcupada()) {
             return new responseDTO(
                 HttpStatus.BAD_REQUEST.toString(),
                 "La mesa seleccionada no está disponible"
             );
         }
 
-        Mesa mesa = mesaOptional.get();
-        mesa.setOcupada(true); // Marcar la mesa como ocupada
-
+        // Crear la reserva
         Reservation reservation = new Reservation(
             0,
             reservationDTO.getName(),
             reservationDTO.getFecha(),
             reservationDTO.getNumeroPersonas(),
-            reservationDTO.getNumeroCelular(),
+            Integer.parseInt(reservationDTO.getNumeroCelular()),
             mesa,
-            true
+            true // Estado de la reserva (activa)
         );
 
-        reservationRepository.save(reservation);
-        mesaRepository.save(mesa);
+        // Guardar la reserva y actualizar el estado de la mesa
+        try {
+            mesa.setOcupada(true); // Marcar la mesa como ocupada
+            reservationRepository.save(reservation);
+            mesaRepository.save(mesa);
 
-        return new responseDTO(
-            HttpStatus.OK.toString(),
-            "Reserva agregada correctamente"
-        );
+            return new responseDTO(
+                HttpStatus.OK.toString(),
+                "Reserva agregada correctamente"
+            );
+        } catch (Exception e) {
+            return new responseDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR.toString(),
+                "Error al guardar la reserva: " + e.getMessage()
+            );
+        }
     }
 }

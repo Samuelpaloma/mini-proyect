@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.samuel.crud_basic.DTO.ReservationDTO;
 import com.samuel.crud_basic.DTO.responseDTO;
@@ -36,11 +40,15 @@ public class reservationController {
     // Agregar una nueva reserva
     @PostMapping("/")
     public ResponseEntity<Object> addReservation(@RequestBody ReservationDTO reservationDTO) {
-        responseDTO response = reservationService.addReservation(reservationDTO);
-        if (response.getStatus().equals("200 OK")) {
-            return ResponseEntity.ok(response.getMessage());
-        } else {
-            return ResponseEntity.badRequest().body(response.getMessage());
+        try {
+            responseDTO response = reservationService.addReservation(reservationDTO);
+            if (response.getStatus().equals("200 OK")) {
+                return ResponseEntity.ok(response.getMessage());
+            } else {
+                return ResponseEntity.badRequest().body(response.getMessage());
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error interno del servidor: " + e.getMessage());
         }
     }
 }

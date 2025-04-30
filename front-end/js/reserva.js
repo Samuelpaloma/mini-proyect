@@ -3,12 +3,13 @@ let reservasGlobal = [];
 // Función para cargar las mesas disponibles
 async function cargarMesasDisponibles() {
     const mesaSelect = document.getElementById("mesa");
+    const botonReserva = document.querySelector("#reserva-form button");
+
+    botonReserva.disabled = true;
 
     try {
-        const response = await fetch("http://localhost:8080/api/v1/reservation/available-mesas");
-        if (!response.ok) {
-            throw new Error("Error al cargar las mesas disponibles.");
-        }
+        const response = await fetch("http://localhost:8080/api/v1/mesa/available");
+        if (!response.ok) throw new Error("Error al cargar las mesas disponibles.");
 
         const mesas = await response.json();
         console.log("Mesas disponibles:", mesas);
@@ -16,11 +17,7 @@ async function cargarMesasDisponibles() {
         mesaSelect.innerHTML = '<option value="" disabled selected>Seleccione una mesa</option>';
 
         if (mesas.length === 0) {
-            const option = document.createElement("option");
-            option.value = "";
-            option.disabled = true;
-            option.textContent = "No hay mesas disponibles";
-            mesaSelect.appendChild(option);
+            mesaSelect.innerHTML += `<option value="" disabled>No hay mesas disponibles</option>`;
             return;
         }
 
@@ -30,6 +27,9 @@ async function cargarMesasDisponibles() {
             option.textContent = `Mesa ${mesa.idMesa} - Capacidad: ${mesa.capacidad}`;
             mesaSelect.appendChild(option);
         });
+
+        botonReserva.disabled = false;
+
     } catch (error) {
         console.error("Error al cargar las mesas disponibles:", error);
         alert("No se pudieron cargar las mesas disponibles.");
@@ -39,23 +39,31 @@ async function cargarMesasDisponibles() {
 // Función para registrar una nueva reserva
 async function registrarReserva() {
     const nombre = document.getElementById("nombre").value.trim();
-    const fecha = document.getElementById("fecha").value; // Ahora incluye fecha y hora
+    const fecha = document.getElementById("fecha").value;
     const numeroPersonas = parseInt(document.getElementById("personas").value, 10);
     const numeroCelular = document.getElementById("celular").value.trim();
-    const mesaId = parseInt(document.getElementById("mesa").value, 10);
+    const mesaValor = document.getElementById("mesa").value;
 
-    if (!nombre || !fecha || isNaN(numeroPersonas) || !numeroCelular || isNaN(mesaId)) {
+    console.log("Valor crudo del select mesa:", mesaValor);
+
+    if (!nombre || !fecha || isNaN(numeroPersonas) || numeroPersonas <= 0 ||
+        !numeroCelular || numeroCelular.length !== 10 || !mesaValor) {
         alert("Por favor, completa todos los campos correctamente.");
         return;
     }
 
+    const mesaId = parseInt(mesaValor, 10);
+    console.log("Mesa seleccionada (idMesa):", mesaId);
+
     const reserva = {
         name: nombre,
-        fecha: fecha, // Enviar fecha y hora en formato ISO 8601
-        numeroPersonas: numeroPersonas,
-        numeroCelular: numeroCelular,
+        fecha: new Date(fecha).toISOString(),
+        numeroPersonas,
+        numeroCelular,
         idMesa: mesaId
     };
+
+    console.log("Datos enviados al backend:", reserva);
 
     try {
         const response = await fetch("http://localhost:8080/api/v1/reservation/", {
@@ -66,28 +74,28 @@ async function registrarReserva() {
             body: JSON.stringify(reserva)
         });
 
-        if (!response.ok) {
-            throw new Error("Error al registrar la reserva.");
-        }
-
         const data = await response.json();
-        alert(data.message || "¡Reserva realizada con éxito!");
-        document.getElementById("reserva-form").reset();
-        cargarMesasDisponibles(); // Actualizar las mesas disponibles
-        obtenerReservas(); // Actualizar la lista de reservas
+        console.log("Respuesta del backend:", data);
+
+        if (response.ok) {
+            alert(data.message || "¡Reserva realizada con éxito!");
+            document.getElementById("reserva-form").reset();
+            cargarMesasDisponibles();
+            obtenerReservas();
+        } else {
+            alert(data || "Hubo un problema al realizar la reserva.");
+        }
     } catch (error) {
         console.error("Error al registrar la reserva:", error);
-        alert("Hubo un problema al realizar la reserva.");
+        alert("Error al conectar con el servidor.");
     }
 }
 
-// Función para obtener todas las reservas
+// Función para obtener reservas
 async function obtenerReservas() {
     try {
         const response = await fetch("http://localhost:8080/api/v1/reservation/");
-        if (!response.ok) {
-            throw new Error("Error al obtener las reservas.");
-        }
+        if (!response.ok) throw new Error("Error al obtener las reservas.");
 
         const reservas = await response.json();
         reservasGlobal = Array.isArray(reservas) ? reservas : [];
@@ -99,7 +107,7 @@ async function obtenerReservas() {
     }
 }
 
-// Función para renderizar las reservas en la página
+// Función para mostrar reservas
 function renderReservas(lista) {
     const contenedor = document.querySelector(".reservas-container");
     if (!contenedor) {
@@ -110,29 +118,24 @@ function renderReservas(lista) {
     contenedor.innerHTML = "";
 
     if (!Array.isArray(lista) || lista.length === 0) {
-        const mensajeNoResultados = document.createElement("div");
-        mensajeNoResultados.classList.add("sin-resultados");
-        mensajeNoResultados.innerHTML = "<h3>No hay reservas registradas.</h3>";
-        contenedor.appendChild(mensajeNoResultados);
+        contenedor.innerHTML = "<h3>No hay reservas registradas.</h3>";
     } else {
         lista.forEach((reserva) => {
             const divReserva = document.createElement("div");
             divReserva.classList.add("reserva");
-
             divReserva.innerHTML = `
                 <h3>${reserva.name}</h3>
                 <p>Fecha y hora: ${reserva.fecha}</p>
                 <p>Número de personas: ${reserva.numeroPersonas}</p>
                 <p>Celular: ${reserva.numeroCelular}</p>
-                <p>Mesa: ${reserva.mesa.idMesa}</p>
+                <p>Mesa: ${reserva.mesa?.idMesa || "Sin asignar"}</p>
             `;
-
             contenedor.appendChild(divReserva);
         });
     }
 }
 
-// Inicializar eventos y cargar datos al cargar la página
+// Al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     cargarMesasDisponibles();
     obtenerReservas();

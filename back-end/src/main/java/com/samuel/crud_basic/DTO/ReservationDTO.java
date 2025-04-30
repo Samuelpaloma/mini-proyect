@@ -7,7 +7,7 @@ public class ReservationDTO {
     private String name;
     private LocalDateTime fecha;
     private int numeroPersonas;
-    private int numeroCelular;
+    private String numeroCelular; // Cambiado a String para manejar números largos
     private int idMesa; // ID de la mesa seleccionada
 
     // Constructor vacío
@@ -15,7 +15,7 @@ public class ReservationDTO {
     }
 
     // Constructor con parámetros
-    public ReservationDTO(String name, LocalDateTime fecha, int numeroPersonas, int numeroCelular, int idMesa) {
+    public ReservationDTO(String name, LocalDateTime fecha, int numeroPersonas, String numeroCelular, int idMesa) {
         this.name = name;
         this.fecha = fecha;
         this.numeroPersonas = numeroPersonas;
@@ -48,11 +48,11 @@ public class ReservationDTO {
         this.numeroPersonas = numeroPersonas;
     }
 
-    public int getNumeroCelular() {
+    public String getNumeroCelular() {
         return numeroCelular;
     }
 
-    public void setNumeroCelular(int numeroCelular) {
+    public void setNumeroCelular(String numeroCelular) {
         this.numeroCelular = numeroCelular;
     }
 
